@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-secondary-500;
+}
+
+.card-gradient {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(240, 240, 245, 0.8) 100%);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.dark .card-gradient {
+  background: linear-gradient(180deg, rgba(30, 30, 46, 0.5) 0%, rgba(20, 20, 30, 0.8) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* GPU Hardware Acceleration Utilities for Buttery Smooth Scroll */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform, filter;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
