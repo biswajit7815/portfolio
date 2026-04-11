@@ -1,5 +1,5 @@
 import express from 'express';
-import mongoose from 'mongoose';
+//import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import nodemailer from 'nodemailer';
@@ -14,10 +14,10 @@ app.use(cors());
 app.use(express.json());
 
 // Database Connection
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://mongodb:27017/portfolio';
-mongoose.connect(MONGODB_URI)
-  .then(() => console.log('✅ Connected to MongoDB successfully'))
-  .catch((err) => console.error('❌ Failed to connect to MongoDB:', err));
+// const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://mongodb:27017/portfolio';
+// mongoose.connect(MONGODB_URI)
+//   .then(() => console.log('✅ Connected to MongoDB successfully'))
+//   .catch((err) => console.error('❌ Failed to connect to MongoDB:', err));
 
 // Routes
 // POST /api/contact - Create a new contact message
@@ -30,14 +30,14 @@ app.post('/api/contact', async (req, res) => {
       return res.status(400).json({ error: 'All fields are required.' });
     }
 
-    const newContact = new Contact({
-      firstName,
-      lastName,
-      email,
-      message
-    });
+    // const newContact = new Contact({
+    //   firstName,
+    //   lastName,
+    //   email,
+    //   message
+    // });
 
-    await newContact.save();
+    // await newContact.save();
 
     console.log(`New message received from: ${firstName} ${lastName} (${email})`);
 
@@ -76,11 +76,14 @@ app.post('/api/contact', async (req, res) => {
     res.status(500).json({ error: 'Failed to send message. Please try again later.' });
   }
 });
-
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.status(200).json({ status: 'healthy', database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected' });
+app.get('/',  (req,res)=> {
+  res.status(200).json({msg:"hii"})
 });
+// Health check endpoint
+// app.get('/api/health', (req, res) => {
+  
+//   res.status(200).json({ status: 'healthy', database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected' });
+// });
 
 // Start Server
 const PORT = process.env.PORT || 5000;
