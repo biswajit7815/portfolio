@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Server } from 'lucide-react';
+import { Server, Github, ExternalLink, Code2, Layers, Cpu, Globe } from 'lucide-react';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -8,49 +8,89 @@ const sectionVariants = {
 };
 
 const ShowcaseSection = React.memo(() => {
-  const featured = [
+  const projects = [
     {
       title: "End-to-End CI/CD Pipeline",
-      desc: "Implemented a fully automated pipeline using Jenkins and GitHub Actions to build, test, and deploy microservices across environments.",
-      tags: ["Jenkins", "Docker", "AWS", "GitHub Actions"]
+      desc: "Implemented a fully automated GitOps pipeline using Jenkins, Docker, and GitHub Actions. Automates testing, security scanning, and deployment to staging/production.",
+      tech: ["Jenkins", "Docker", "GitHub Actions", "SonarQube"],
+      github: "https://github.com/biswajit7815",
+      demo: "#",
+      icon: <Cpu className="text-primary-400" />
     },
     {
-      title: "Kubernetes Cluster Setup",
-      desc: "Architected a highly available K8s environment utilizing Helm charts for managing and scaling resilient containerized applications.",
-      tags: ["Kubernetes", "Helm", "Linux"]
+      title: "Dockerized MERN Stack",
+      desc: "Containerized a full-stack MERN application using Docker Compose. Optimizing build times with multi-stage builds and ensuring consistency across envs.",
+      tech: ["MongoDB", "Express", "React", "Node", "Docker"],
+      github: "https://github.com/biswajit7815",
+      demo: "#",
+      icon: <Layers className="text-secondary-400" />
     },
     {
-      title: "Nginx Reverse Proxy & Load Balancing",
-      desc: "Configured secure, high-performance reverse proxies using Nginx with SSL termination and optimized routing for web apps.",
-      tags: ["Nginx", "Linux", "SSL"]
+      title: "Kubernetes Production Setup",
+      desc: "Architected a highly available K8s cluster on AWS EKS. Managed microservices with Helm, implemented Auto-scaling, and Load Balancing.",
+      tech: ["Kubernetes", "AWS EKS", "Helm", "Terraform"],
+      github: "https://github.com/biswajit7815",
+      demo: "#",
+      icon: <Globe className="text-primary-400" />
+    },
+    {
+      title: "NGINX Secure Reverse Proxy",
+      desc: "Configured a high-performance NGINX reverse proxy with Let's Encrypt SSL, load balancing, and rate limiting for enhanced security.",
+      tech: ["NGINX", "SSL/TLS", "Linux", "Security"],
+      github: "https://github.com/biswajit7815",
+      demo: "#",
+      icon: <Server className="text-secondary-400" />
     }
   ];
 
   return (
-    <motion.section initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={sectionVariants}>
+    <motion.section id="projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={sectionVariants} className="scroll-mt-24">
       <div className="text-center mb-16">
-        <h3 className="text-4xl md:text-5xl font-extrabold text-dark-900 dark:text-white mb-4 transition-all duration-500 flex justify-center items-center gap-3">
-          <Server className="text-secondary-500" size={40} /> 
-          Featured Initiatives
+        <h3 className="text-4xl md:text-5xl font-extrabold text-white mb-4 flex justify-center items-center gap-3">
+          <Code2 className="text-secondary-500" size={40} /> 
+          Featured Projects
         </h3>
-        <div className="w-24 h-1 bg-gradient-to-r from-secondary-500 to-accent-500 mx-auto rounded-full"></div>
+        <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full"></div>
       </div>
-      <div className="space-y-8">
-        {featured.map((item, i) => (
-          <div key={i} className="bg-white/60 dark:bg-dark-800/40 backdrop-blur-2xl rounded-3xl p-8 md:p-10 border border-gray-200/50 dark:border-white/10 shadow-lg hover:shadow-2xl hover:bg-white/80 dark:hover:bg-dark-800/60 transition-all duration-500 relative overflow-hidden group">
-            <div className="absolute left-0 top-0 bottom-0 w-2 bg-gradient-to-b from-primary-500 to-secondary-500 opacity-80 group-hover:w-3 transition-all duration-500"></div>
-            <div className="pl-4">
-              <h4 className="text-2xl font-bold text-dark-900 dark:text-white mb-4 transition-all duration-500 group-hover:text-primary-500 dark:group-hover:text-primary-400">{item.title}</h4>
-              <p className="text-gray-700 dark:text-gray-300 mb-8 font-light text-lg transition-all duration-500">{item.desc}</p>
-              <div className="flex flex-wrap gap-3">
-                {item.tags.map((tag, j) => (
-                  <span key={j} className="text-sm px-4 py-1.5 bg-gray-100/80 dark:bg-dark-900/50 text-gray-700 dark:text-gray-300 rounded-full border border-gray-200/50 dark:border-white/5 shadow-sm transition-all duration-500">
-                    {tag}
-                  </span>
-                ))}
-              </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {projects.map((project, i) => (
+          <motion.div 
+            key={i}
+            whileHover={{ y: -10 }}
+            className="glass-card rounded-3xl p-8 glass-card-hover group relative overflow-hidden"
+          >
+            <div className="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-100 transition-opacity">
+              {project.icon}
             </div>
-          </div>
+            
+            <h4 className="text-2xl font-bold text-white mb-4 group-hover:text-primary-400 transition-colors">
+              {project.title}
+            </h4>
+            
+            <p className="text-gray-400 mb-6 line-clamp-3">
+              {project.desc}
+            </p>
+            
+            <div className="flex flex-wrap gap-2 mb-8">
+              {project.tech.map((tag, j) => (
+                <span key={j} className="text-[10px] uppercase tracking-wider font-bold px-3 py-1 bg-white/5 border border-white/10 rounded-full text-gray-300">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            
+            <div className="flex items-center gap-4">
+              <a href={project.github} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm font-bold text-white hover:text-primary-400 transition-colors">
+                <Github size={18} />
+                Code
+              </a>
+              <a href={project.demo} className="flex items-center gap-2 text-sm font-bold text-white hover:text-secondary-400 transition-colors">
+                <ExternalLink size={18} />
+                Demo
+              </a>
+            </div>
+          </motion.div>
         ))}
       </div>
     </motion.section>

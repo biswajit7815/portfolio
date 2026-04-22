@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Shield } from 'lucide-react';
+import { Shield, Briefcase, GraduationCap, Calendar, Activity } from 'lucide-react';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -8,41 +8,71 @@ const sectionVariants = {
 };
 
 const ExperienceSection = React.memo(() => {
+  const journey = [
+    {
+      title: "DevSecOps Enthusiast & Builder",
+      company: "Independent / Projects",
+      period: "2023 - Present",
+      desc: "Architecting automated infrastructure and CI/CD pipelines. Focused on AWS, Kubernetes, and Terraform. Actively sharing insights with 3k+ community impressions.",
+      icon: <Briefcase className="text-primary-400" />,
+      color: "border-primary-500/50"
+    },
+    {
+      title: "Cloud Infrastructure Learning",
+      company: "Self-Paced Training",
+      period: "2022 - 2023",
+      desc: "Mastered containerization with Docker and orchestration with Kubernetes. Built several production-grade reverse proxy setups and load balancing solutions.",
+      icon: <Activity className="text-secondary-400" />,
+      color: "border-secondary-500/50"
+    },
+    {
+      title: "IT Foundations",
+      company: "Academic Journey",
+      period: "2021",
+      desc: "Deep dive into Linux administration, networking fundamentals, and Python scripting for system automation.",
+      icon: <GraduationCap className="text-primary-400" />,
+      color: "border-primary-500/50"
+    }
+  ];
+
   return (
     <motion.section id="experience" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={sectionVariants} className="scroll-mt-24">
       <div className="text-center mb-16">
-        <h3 className="text-4xl md:text-5xl font-extrabold text-dark-900 dark:text-white mb-4 transition-all duration-500 flex justify-center items-center gap-3">
-          <Shield className="text-primary-500" size={40} /> 
-          Experience & Journey
-        </h3>
-        <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full"></div>
+        <h3 className="text-4xl md:text-5xl font-black text-white mb-4">The <span className="gradient-text">Journey</span></h3>
+        <div className="w-24 h-1.5 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full"></div>
       </div>
       
-      <div className="bg-white/60 dark:bg-dark-800/40 backdrop-blur-2xl rounded-3xl p-8 md:p-12 border border-gray-200/50 dark:border-white/10 shadow-2xl relative">
-        <div className="absolute left-[51px] md:left-[55px] top-12 bottom-12 w-1 bg-gradient-to-b from-primary-500/50 via-secondary-500/50 to-transparent transition-all duration-500" />
-        
-        <div className="space-y-16 relative">
-          <div className="flex gap-8 group">
-            <div className="w-8 h-8 rounded-full bg-primary-500 shadow-[0_0_20px_rgba(6,182,212,0.6)] ring-4 ring-white dark:ring-dark-800 z-10 shrink-0 transition-all duration-500 group-hover:scale-125" />
-            <div className="bg-white/80 dark:bg-dark-900/50 backdrop-blur border border-gray-100 dark:border-white/5 p-6 rounded-2xl w-full shadow-lg group-hover:shadow-primary-500/10 transition-all duration-500">
-              <h4 className="text-2xl font-bold text-dark-900 dark:text-white transition-all duration-500">DevSecOps Enthusiast</h4>
-              <div className="inline-flex mt-2 mb-4 px-3 py-1 bg-primary-500/10 text-primary-600 dark:text-primary-400 rounded-full text-sm font-semibold transition-all duration-500">Present</div>
-              <p className="text-gray-600 dark:text-gray-300 font-light text-lg transition-all duration-500">
-                Continuously exploring modern cloud and infrastructure automation. Engaging with the community (3k+ impressions) and contributing to open-source DevOps tooling. Building robust infrastructure using AWS, Terraform, and Kubernetes on a daily basis.
+      <div className="relative max-w-4xl mx-auto pl-10 md:pl-20 border-l-2 border-white/5 space-y-12 py-8">
+        {journey.map((item, i) => (
+          <motion.div 
+            key={i}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ delay: i * 0.2 }}
+            className="relative"
+          >
+            {/* Timeline Dot */}
+            <div className={`absolute -left-[51px] md:-left-[91px] top-0 w-10 h-10 rounded-2xl bg-dark-900 border-2 ${item.color} flex items-center justify-center z-10 shadow-[0_0_15px_rgba(0,0,0,0.5)]`}>
+              {item.icon}
+            </div>
+            
+            <div className="glass-card rounded-3xl p-8 hover:bg-white/10 transition-all group">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                <div>
+                  <h4 className="text-2xl font-bold text-white group-hover:text-primary-400 transition-colors">{item.title}</h4>
+                  <div className="text-primary-400 font-bold text-sm tracking-widest uppercase mt-1">{item.company}</div>
+                </div>
+                <div className="flex items-center gap-2 text-gray-500 text-sm font-bold bg-white/5 px-4 py-1.5 rounded-full">
+                  <Calendar size={14} />
+                  {item.period}
+                </div>
+              </div>
+              <p className="text-gray-400 leading-relaxed text-lg">
+                {item.desc}
               </p>
             </div>
-          </div>
-          
-          <div className="flex gap-8 group">
-            <div className="w-8 h-8 rounded-full bg-secondary-500 shadow-[0_0_20px_rgba(168,85,247,0.4)] ring-4 ring-white dark:ring-dark-800 z-10 shrink-0 transition-all duration-500 group-hover:scale-125" />
-            <div className="bg-white/80 dark:bg-dark-900/50 backdrop-blur border border-gray-100 dark:border-white/5 p-6 rounded-2xl w-full shadow-lg group-hover:shadow-secondary-500/10 transition-all duration-500">
-              <h4 className="text-2xl font-bold text-dark-900 dark:text-white transition-all duration-500">Hands-on Cloud Infrastructure</h4>
-              <p className="text-gray-600 dark:text-gray-300 font-light text-lg mt-4 transition-all duration-500">
-                Orchestrating scalable deployments utilizing Docker and automated Jenkins pipelines. Focused on achieving high availability and minimizing deployment times.
-              </p>
-            </div>
-          </div>
-        </div>
+          </motion.div>
+        ))}
       </div>
     </motion.section>
   );
