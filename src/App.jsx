@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Suspense, useMemo } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import Lenis from '@studio-freight/lenis';
-import { Github, Mail, Activity, ChevronDown, Terminal, Cloud, Container, GitBranch, Server, Code, Linkedin, Download, ExternalLink } from 'lucide-react';
+import { Github, Mail, Activity, ChevronDown, Terminal, Cloud, Container, GitBranch, Server, Code, Linkedin, Download, ExternalLink, Layers } from 'lucide-react';
 
 const GithubSection = React.lazy(() => import('./components/GithubSection'));
 const ShowcaseSection = React.lazy(() => import('./components/ShowcaseSection'));
@@ -175,12 +175,20 @@ export default function App() {
 
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const navLinks = [
+    { name: 'About', href: '#about' },
+    { name: 'Projects', href: '#projects' },
+    { name: 'Skills', href: '#skills' },
+    { name: 'Contact', href: '#contact' }
+  ];
 
   return (
     <nav className={`fixed top-0 w-full z-[90] transition-all duration-300 ${isScrolled ? 'py-4' : 'py-6'}`}>
@@ -195,29 +203,68 @@ function Navbar() {
             </span>
           </div>
           
+          {/* Desktop Links */}
           <div className="hidden md:flex gap-8 text-sm font-medium">
-            {['About', 'Projects', 'Skills', 'Contact'].map((item) => (
+            {navLinks.map((item) => (
               <a 
-                key={item} 
-                href={`#${item.toLowerCase()}`} 
+                key={item.name} 
+                href={item.href} 
                 className="text-gray-400 hover:text-white transition-colors relative group"
               >
-                {item}
+                {item.name}
                 <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary-500 transition-all group-hover:w-full"></span>
               </a>
             ))}
           </div>
 
           <div className="flex items-center gap-4">
-            <a href="https://github.com/biswajit7815" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-white transition-colors">
+            <a href="https://github.com/biswajit7815" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-white transition-colors hidden sm:block">
               <Github size={20} />
             </a>
-            <a href="#contact" className="px-5 py-2 bg-white text-dark-900 rounded-xl text-sm font-bold hover:bg-primary-400 hover:text-white transition-all transform active:scale-95 shadow-lg shadow-white/10 hover:shadow-primary-500/40">
+            <a href="#contact" className="px-5 py-2 bg-white text-dark-900 rounded-xl text-sm font-bold hover:bg-primary-400 hover:text-white transition-all transform active:scale-95 shadow-lg shadow-white/10 hover:shadow-primary-500/40 hidden sm:block">
               Hire Me
             </a>
+            
+            {/* Mobile Menu Toggle */}
+            <button 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2 text-gray-400 hover:text-white transition-colors"
+            >
+              {isMenuOpen ? <Terminal size={24} className="text-primary-400" /> : <Layers size={24} />}
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute top-full left-6 right-6 mt-4 md:hidden"
+          >
+            <div className="glass-card rounded-[2rem] p-8 flex flex-col gap-6 items-center border border-white/10 shadow-2xl">
+               {navLinks.map((item) => (
+                <a 
+                  key={item.name} 
+                  href={item.href} 
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-xl font-black text-white hover:text-primary-400 transition-colors uppercase tracking-widest"
+                >
+                  {item.name}
+                </a>
+              ))}
+              <div className="w-full h-px bg-white/10"></div>
+              <div className="flex gap-8">
+                 <a href="https://github.com/biswajit7815" className="text-gray-400 hover:text-white transition-colors"><Github size={24} /></a>
+                 <a href="https://linkedin.com" className="text-gray-400 hover:text-white transition-colors"><Linkedin size={24} /></a>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
@@ -226,7 +273,7 @@ const HeroSection = React.memo(() => {
   return (
     <motion.section 
       initial="hidden" animate="visible" variants={sectionVariants}
-      className="min-h-[85vh] flex flex-col justify-center items-center text-center relative pt-20"
+      className="min-h-[85vh] flex flex-col justify-center items-center text-center relative pt-20 px-4"
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
@@ -238,21 +285,25 @@ const HeroSection = React.memo(() => {
         <span className="font-medium tracking-wide uppercase text-[10px]">Ready to Scale Infrastructure</span>
       </motion.div>
       
-      <h1 className="text-5xl sm:text-7xl md:text-8xl font-black text-white mb-6 tracking-tighter leading-tight">
+      <h1 className="text-4xl sm:text-7xl md:text-8xl font-black text-white mb-6 tracking-tighter leading-tight">
         Hi, I'm <Typewriter texts={["Biswajit Behera", "a DevOps Engineer", "a Cloud Architect"]} />
       </h1>
       
-      <p className="max-w-2xl text-lg sm:text-xl text-gray-400 mb-12 leading-relaxed">
+      <p className="max-w-2xl text-base sm:text-xl text-gray-400 mb-12 leading-relaxed">
         Automating <span className="text-white font-semibold">Infrastructure</span> | 
         Orchestrating <span className="text-white font-semibold">CI/CD</span> | 
-        Cloud Specialist <span className="text-white font-semibold">Kubernetes & AWS</span>
+        Cloud Specialist <span className="text-white font-semibold text-primary-400 underline decoration-secondary-500/50 decoration-4 underline-offset-8">Kubernetes & AWS</span>
       </p>
       
-      <div className="flex flex-wrap justify-center gap-6">
-        <a href="#projects" className="px-8 py-4 bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-500 hover:to-secondary-500 text-white rounded-2xl font-bold transition-all transform hover:-translate-y-1 shadow-[0_10px_30px_rgba(6,182,212,0.3)] hover:shadow-[0_10px_40px_rgba(6,182,212,0.5)]">
+      <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
+        <a href="#projects" className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-500 hover:to-secondary-500 text-white rounded-2xl font-bold transition-all transform hover:-translate-y-1 shadow-[0_10px_30px_rgba(6,182,212,0.3)] hover:shadow-[0_10px_40px_rgba(6,182,212,0.5)]">
           View Projects
         </a>
-        <a href="#" className="px-8 py-4 glass-card hover:bg-white/10 text-white rounded-2xl font-bold flex items-center gap-2 transition-all transform hover:-translate-y-1">
+        <a 
+          href="https://github.com/biswajit7815/portfolio/raw/main/README.md" 
+          target="_blank"
+          className="w-full sm:w-auto px-8 py-4 glass-card hover:bg-white/10 text-white rounded-2xl font-bold flex items-center justify-center gap-2 transition-all transform hover:-translate-y-1"
+        >
           <Download size={20} />
           Get Resume
         </a>
@@ -261,7 +312,7 @@ const HeroSection = React.memo(() => {
       <motion.div 
         animate={{ y: [0, 10, 0] }}
         transition={{ repeat: Infinity, duration: 2 }}
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 text-gray-500"
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 text-gray-500 hidden sm:block"
       >
         <ChevronDown size={32} />
       </motion.div>
