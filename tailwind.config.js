@@ -9,38 +9,39 @@ export default {
     extend: {
       colors: {
         dark: {
-          900: '#05050A', // Even deeper black
-          800: '#0F101A',
-          700: '#1A1C29',
+          950: '#020205',
+          900: '#05050A',
+          800: '#0a0a1a',
         },
         primary: {
-          300: '#67e8f9',
           400: '#22d3ee',
-          500: '#06b6d4', // Cyan
+          500: '#06b6d4',
           600: '#0891b2',
         },
         secondary: {
           400: '#c084fc',
-          500: '#a855f7', // Purple/Violet
+          500: '#a855f7',
           600: '#9333ea',
         },
-        accent: {
-          500: '#f43f5e', // Rose
+        cyan: {
+          400: '#22d3ee',
+          500: '#06b6d4',
+        },
+        indigo: {
+          500: '#6366f1',
+          600: '#4f46e5',
+        },
+        purple: {
+          500: '#a855f7',
         }
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
+        display: ['Poppins', 'sans-serif'],
       },
-      animation: {
-        'blob': 'blob 7s infinite',
-      },
-      keyframes: {
-        blob: {
-          '0%': { transform: 'translate(0px, 0px) scale(1)' },
-          '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-          '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-          '100%': { transform: 'translate(0px, 0px) scale(1)' },
-        }
+      boxShadow: {
+        'glow-cyan': '0 0 20px rgba(6, 182, 212, 0.3)',
+        'glow-purple': '0 0 20px rgba(168, 85, 247, 0.3)',
       }
     },
   },

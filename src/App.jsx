@@ -60,37 +60,38 @@ const Typewriter = ({ texts, delay = 150, pause = 2000 }) => {
     </span>
   );
 };
+  }, [text, isDeleting, index, texts]);
 
-const BackgroundWaves = () => (
-  <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden opacity-50">
-    <div className="absolute top-[-10%] left-[-10%] w-[120%] h-[120%] bg-[radial-gradient(circle_at_50%_50%,_rgba(6,182,212,0.1)_0%,_transparent_50%)] animate-blob"></div>
-    <div className="absolute bottom-[-10%] right-[-10%] w-[120%] h-[120%] bg-[radial-gradient(circle_at_50%_50%,_rgba(168,85,247,0.1)_0%,_transparent_50%)] animate-blob" style={{ animationDelay: '2s' }}></div>
-    <div className="absolute top-[20%] right-[10%] w-[80%] h-[80%] bg-[radial-gradient(circle_at_50%_50%,_rgba(244,63,94,0.05)_0%,_transparent_50%)] animate-blob" style={{ animationDelay: '4s' }}></div>
-    
-    <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+  return <span className="gradient-text drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]">{text}</span>;
+}
+
+const BackgroundWaves = () => {
+  return (
+    <svg className="w-full h-full opacity-30" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <filter id="goo">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blur" />
           <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
         </filter>
       </defs>
       <g filter="url(#goo)">
         <motion.circle 
           initial={{ cx: "10%", cy: "10%" }}
           animate={{ cx: ["10%", "90%", "10%"], cy: ["10%", "50%", "10%"] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          r="150" fill="rgba(6,182,212,0.03)" 
+          transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
+          r="180" fill="rgba(6,182,212,0.05)" 
         />
         <motion.circle 
           initial={{ cx: "90%", cy: "80%" }}
           animate={{ cx: ["90%", "10%", "90%"], cy: ["80%", "20%", "80%"] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          r="200" fill="rgba(168,85,247,0.03)" 
+          transition={{ duration: 40, repeat: Infinity, ease: "easeInOut" }}
+          r="240" fill="rgba(99,102,241,0.05)" 
         />
       </g>
     </svg>
-  </div>
-);
+  );
+}
 
 export default function App() {
   const { scrollYProgress } = useScroll();
@@ -113,58 +114,61 @@ export default function App() {
       .then(res => res.json())
       .then(data => {
         if(Array.isArray(data)) setRepos(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, []);
-
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
     });
 
     function raf(time) {
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
-    requestAnimationFrame(raf);
 
-    return () => {
-      lenis.destroy();
-    };
+    requestAnimationFrame(raf);
   }, []);
 
   return (
-    <div className="bg-dark-900 min-h-screen text-gray-300 font-sans selection:bg-primary-500/30 selection:text-primary-400 transition-all duration-500 overflow-hidden relative">
+    <div className="relative text-slate-300 font-sans selection:bg-cyan-500/30 selection:text-cyan-400 overflow-hidden">
+      {/* Premium Background */}
+      <div className="fixed inset-0 -z-50 bg-[#030307]">
+        <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/stardust.png")'}}></div>
+        
+        {/* Animated Blobs */}
+        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-cyan-500/10 rounded-full blur-[140px] animate-pulse"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-indigo-500/10 rounded-full blur-[140px] animate-pulse" style={{animationDelay: '2s'}}></div>
+      </div>
       
-      <BackgroundWaves />
+      <div className="fixed inset-0 -z-40 pointer-events-none">
+        <BackgroundWaves />
+      </div>
 
       <motion.div
-        className="fixed top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary-500 via-secondary-500 to-primary-500 origin-left z-[100] gpu-accelerated"
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-500 z-[100] origin-left"
         style={{ scaleX }}
       />
 
       <Navbar />
-
-      <main className="max-w-6xl mx-auto px-6 pt-24 pb-12 space-y-32 relative z-10">
+      
+      <main className="max-w-6xl mx-auto pt-12 space-y-32 px-6">
         <HeroSection />
-        <AboutSection />
-        <ArchitectureSection />
-        <SkillsSection />
-        <Suspense fallback={<FallbackLoader />}>
-          <GithubSection repos={repos} loading={loading} />
-          <ShowcaseSection />
-          <ExperienceSection />
-          <ContactSection />
+        
+        <Suspense fallback={
+          <div className="h-screen flex items-center justify-center">
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-12 h-12 border-2 border-cyan-500/20 border-t-cyan-500 rounded-full animate-spin"></div>
+              <span className="text-cyan-500 font-bold tracking-widest text-xs uppercase animate-pulse">Initializing Portal...</span>
+            </div>
+          </div>
+        }>
+          <div className="space-y-32">
+            <ArchitectureSection />
+            <ShowcaseSection />
+            <GithubSection />
+            <ExperienceSection />
+            <ContactSection />
+          </div>
         </Suspense>
       </main>
 
@@ -191,46 +195,46 @@ function Navbar() {
   ];
 
   return (
-    <nav className={`fixed top-0 w-full z-[90] transition-all duration-300 ${isScrolled ? 'py-4' : 'py-6'}`}>
+    <nav className={`fixed top-0 w-full z-[90] transition-all duration-500 ${isScrolled ? 'py-4' : 'py-8'}`}>
       <div className="max-w-6xl mx-auto px-6">
-        <div className={`glass-card rounded-2xl flex items-center justify-between px-6 h-14 transition-all duration-300 ${isScrolled ? 'shadow-2xl border-white/20' : 'bg-transparent border-transparent shadow-none'}`}>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center font-bold text-white shadow-lg shadow-primary-500/20">
+        <div className={`glass-card rounded-[2rem] flex items-center justify-between px-8 h-16 transition-all duration-500 ${isScrolled ? 'shadow-glow-cyan/10 border-white/10' : 'bg-transparent border-transparent shadow-none'}`}>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-indigo-500 flex items-center justify-center font-black text-white shadow-lg shadow-cyan-500/20 transform hover:rotate-12 transition-transform cursor-pointer">
               B
             </div>
-            <span className="text-xl font-bold tracking-tighter text-white">
-              biswa<span className="text-primary-400">.dev</span>
+            <span className="text-2xl font-black tracking-tighter text-white font-display">
+              biswa<span className="text-cyan-400">.dev</span>
             </span>
           </div>
           
           {/* Desktop Links */}
-          <div className="hidden md:flex gap-8 text-sm font-medium">
+          <div className="hidden md:flex gap-10 text-xs font-black uppercase tracking-widest font-display">
             {navLinks.map((item) => (
               <a 
                 key={item.name} 
                 href={item.href} 
-                className="text-gray-400 hover:text-white transition-colors relative group"
+                className="text-slate-400 hover:text-cyan-400 transition-colors relative group"
               >
                 {item.name}
-                <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-primary-500 transition-all group-hover:w-full"></span>
+                <span className="absolute -bottom-2 left-0 w-0 h-[2px] bg-cyan-500 transition-all group-hover:w-full"></span>
               </a>
             ))}
           </div>
 
-          <div className="flex items-center gap-4">
-            <a href="https://github.com/biswajit7815" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-white transition-colors hidden sm:block">
-              <Github size={20} />
+          <div className="flex items-center gap-6">
+            <a href="https://github.com/biswajit7815" target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white transition-colors hidden sm:block">
+              <Github size={22} />
             </a>
-            <a href="#contact" className="px-5 py-2 bg-white text-dark-900 rounded-xl text-sm font-bold hover:bg-primary-400 hover:text-white transition-all transform active:scale-95 shadow-lg shadow-white/10 hover:shadow-primary-500/40 hidden sm:block">
+            <a href="#contact" className="px-6 py-2.5 bg-white text-dark-950 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-cyan-500 hover:text-white transition-all transform active:scale-95 shadow-xl shadow-white/5 hover:shadow-cyan-500/40 hidden sm:block font-display">
               Hire Me
             </a>
             
             {/* Mobile Menu Toggle */}
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-gray-400 hover:text-white transition-colors"
+              className="md:hidden p-2 text-slate-400 hover:text-white transition-colors"
             >
-              {isMenuOpen ? <Terminal size={24} className="text-primary-400" /> : <Layers size={24} />}
+              {isMenuOpen ? <Terminal size={28} className="text-cyan-400" /> : <Layers size={28} />}
             </button>
           </div>
         </div>
@@ -240,26 +244,26 @@ function Navbar() {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-6 right-6 mt-4 md:hidden"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="absolute top-full left-6 right-6 mt-4 md:hidden z-[100]"
           >
-            <div className="glass-card rounded-[2rem] p-8 flex flex-col gap-6 items-center border border-white/10 shadow-2xl">
+            <div className="glass-card rounded-[2.5rem] p-10 flex flex-col gap-8 items-center border border-white/10 shadow-2xl backdrop-blur-3xl">
                {navLinks.map((item) => (
                 <a 
                   key={item.name} 
                   href={item.href} 
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-xl font-black text-white hover:text-primary-400 transition-colors uppercase tracking-widest"
+                  className="text-2xl font-black text-white hover:text-cyan-400 transition-colors uppercase tracking-widest font-display"
                 >
                   {item.name}
                 </a>
               ))}
-              <div className="w-full h-px bg-white/10"></div>
-              <div className="flex gap-8">
-                 <a href="https://github.com/biswajit7815" className="text-gray-400 hover:text-white transition-colors"><Github size={24} /></a>
-                 <a href="https://linkedin.com" className="text-gray-400 hover:text-white transition-colors"><Linkedin size={24} /></a>
+              <div className="w-full h-px bg-white/5"></div>
+              <div className="flex gap-10">
+                 <a href="https://github.com/biswajit7815" className="text-slate-400 hover:text-white transition-colors"><Github size={30} /></a>
+                 <a href="https://linkedin.com" className="text-slate-400 hover:text-white transition-colors"><Linkedin size={30} /></a>
               </div>
             </div>
           </motion.div>
@@ -279,30 +283,30 @@ const HeroSection = React.memo(() => {
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-primary-400 text-sm mb-8 backdrop-blur-sm"
+        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-cyan-400 text-xs mb-8 backdrop-blur-sm shadow-glow-cyan/5"
       >
         <Activity size={16} className="animate-pulse" />
-        <span className="font-medium tracking-wide uppercase text-[10px]">Ready to Scale Infrastructure</span>
+        <span className="font-black tracking-widest uppercase text-[10px] font-display">System Status: Operational</span>
       </motion.div>
       
-      <h1 className="text-4xl sm:text-7xl md:text-8xl font-black text-white mb-6 tracking-tighter leading-tight">
-        Hi, I'm <Typewriter texts={["Biswajit Behera", "a DevOps Engineer", "a Cloud Architect"]} />
+      <h1 className="text-5xl sm:text-7xl md:text-9xl font-black text-white mb-6 tracking-tighter leading-tight font-display">
+        Hi, I'm <Typewriter texts={["Biswajit Behera", "a DevOps Expert", "a Cloud Architect"]} />
       </h1>
       
-      <p className="max-w-2xl text-base sm:text-xl text-gray-400 mb-12 leading-relaxed">
-        Automating <span className="text-white font-semibold">Infrastructure</span> | 
-        Orchestrating <span className="text-white font-semibold">CI/CD</span> | 
-        Cloud Specialist <span className="text-white font-semibold text-primary-400 underline decoration-secondary-500/50 decoration-4 underline-offset-8">Kubernetes & AWS</span>
+      <p className="max-w-2xl text-base sm:text-xl text-slate-400 mb-12 leading-relaxed font-medium">
+        Automating <span className="text-white font-bold px-1 underline decoration-cyan-500/30 decoration-4">Infrastructure</span> | 
+        Scaling <span className="text-white font-bold px-1 underline decoration-indigo-500/30 decoration-4">Deployments</span> | 
+        Specializing in <span className="text-cyan-400 font-bold font-display tracking-tight">Kubernetes & AWS Cloud</span>
       </p>
       
-      <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
-        <a href="#projects" className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-500 hover:to-secondary-500 text-white rounded-2xl font-bold transition-all transform hover:-translate-y-1 shadow-[0_10px_30px_rgba(6,182,212,0.3)] hover:shadow-[0_10px_40px_rgba(6,182,212,0.5)]">
-          View Projects
+      <div className="flex flex-wrap justify-center gap-5 sm:gap-8">
+        <a href="#projects" className="cyber-button text-white shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40 font-display uppercase tracking-widest text-xs">
+          Explore Projects
         </a>
         <a 
           href="https://github.com/biswajit7815/portfolio/raw/main/README.md" 
           target="_blank"
-          className="w-full sm:w-auto px-8 py-4 glass-card hover:bg-white/10 text-white rounded-2xl font-bold flex items-center justify-center gap-2 transition-all transform hover:-translate-y-1"
+          className="w-full sm:w-auto px-8 py-4 glass-card hover:bg-white/10 text-white rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all transform hover:-translate-y-1 border-white/10 font-display"
         >
           <Download size={20} />
           Get Resume
@@ -312,7 +316,7 @@ const HeroSection = React.memo(() => {
       <motion.div 
         animate={{ y: [0, 10, 0] }}
         transition={{ repeat: Infinity, duration: 2 }}
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 text-gray-500 hidden sm:block"
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 text-slate-600 hidden sm:block"
       >
         <ChevronDown size={32} />
       </motion.div>

@@ -39,18 +39,18 @@ const ShowcaseSection = React.memo(() => {
       tech: ["NGINX", "SSL/TLS", "Linux", "Security"],
       github: "https://github.com/biswajit7815",
       demo: "#",
-      icon: <Server className="text-secondary-400" />
+      icon: <Server className="text-purple-400" />
     }
   ];
 
   return (
     <motion.section id="projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={sectionVariants} className="scroll-mt-24">
-      <div className="text-center mb-16">
-        <h3 className="text-4xl md:text-5xl font-extrabold text-white mb-4 flex justify-center items-center gap-3">
-          <Code2 className="text-secondary-500" size={40} /> 
-          Featured Projects
+      <div className="text-center mb-16 px-4">
+        <h3 className="text-4xl md:text-5xl font-black text-white mb-4 flex justify-center items-center gap-3 font-display">
+          <Code2 className="text-purple-500" size={40} /> 
+          Featured <span className="gradient-text">Projects</span>
         </h3>
-        <div className="w-24 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full"></div>
+        <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto rounded-full"></div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

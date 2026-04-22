@@ -6,14 +6,14 @@ const ArchitectureSection = () => {
   return (
     <section id="architecture" className="py-20 scroll-mt-24">
       <div className="text-center mb-16 px-4">
-        <h3 className="text-4xl md:text-5xl font-black text-white mb-4 flex justify-center items-center gap-3">
-          <Cpu className="text-primary-400" size={40} />
+        <h3 className="text-4xl md:text-5xl font-black text-white mb-4 flex justify-center items-center gap-3 font-display">
+          <Cpu className="text-cyan-400" size={40} />
           System <span className="gradient-text">Architecture</span>
         </h3>
-        <p className="text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
+        <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base">
           Designing scalable, resilient, and automated infrastructure patterns for high-availability applications.
         </p>
-        <div className="w-24 h-1.5 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto mt-6 rounded-full"></div>
+        <div className="w-24 h-1.5 bg-gradient-to-r from-cyan-500 to-indigo-500 mx-auto mt-6 rounded-full"></div>
       </div>
 
       <div className="glass-card rounded-[2.5rem] p-6 md:p-12 relative overflow-hidden mx-4 md:mx-0">
