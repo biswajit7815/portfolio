@@ -199,7 +199,7 @@ function Navbar() {
               B
             </div>
             <span className="text-xl font-bold tracking-tighter text-white">
-              biswa<span className="text-primary-400">.io</span>
+              biswa<span className="text-primary-400">.dev</span>
             </span>
           </div>
           
@@ -433,7 +433,7 @@ const Footer = React.memo(() => {
     <footer className="border-t border-white/5 py-16 transition-all duration-500 relative z-10 bg-dark-900/80 backdrop-blur-md">
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-12">
         <div className="space-y-6">
-          <div className="text-2xl font-black text-white">biswa<span className="text-primary-400">.io</span></div>
+          <div className="text-2xl font-black text-white">biswa<span className="text-primary-400">.dev</span></div>
           <p className="text-gray-500 text-sm">
             Innovating through automation. Dedicated to building world-class infrastructure.
           </p>
