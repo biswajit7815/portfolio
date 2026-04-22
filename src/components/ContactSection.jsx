@@ -71,7 +71,7 @@ const ContactSection = React.memo(() => {
           <div className="space-y-6 relative z-10">
             <div className="flex items-center gap-4">
               <Phone className="opacity-80" />
-              <span>+91 XXXXX XXXXX</span>
+              <span>+91 78150 94008</span>
             </div>
             <div className="flex items-center gap-4">
               <Mail className="opacity-80" />
