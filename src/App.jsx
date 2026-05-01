@@ -11,6 +11,8 @@ const ArchitectureSection = React.lazy(() => import('./components/ArchitectureSe
 const TerminalSection = React.lazy(() => import('./components/TerminalSection'));
 const CertificationsSection = React.lazy(() => import('./components/CertificationsSection'));
 const SystemDashboardSection = React.lazy(() => import('./components/SystemDashboardSection'));
+const DeploymentSimulation = React.lazy(() => import('./components/DeploymentSimulation'));
+const PsychologySection = React.lazy(() => import('./components/PsychologySection'));
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -214,10 +216,12 @@ export default function App() {
         }>
           <div className="space-y-40">
             <SystemDashboardSection />
+            <DeploymentSimulation />
             <TerminalSection />
             <ArchitectureSection />
             <CertificationsSection />
             <ShowcaseSection />
+            <PsychologySection />
             <GithubSection repos={repos} loading={loading} />
             <ExperienceSection />
             <ContactSection />
