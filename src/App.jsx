@@ -63,6 +63,31 @@ const Typewriter = ({ texts, delay = 150, pause = 2000 }) => {
   );
 };
 
+const MouseLighting = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const updateMousePosition = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', updateMousePosition);
+
+    return () => {
+      window.removeEventListener('mousemove', updateMousePosition);
+    };
+  }, []);
+
+  return (
+    <motion.div
+      className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300"
+      animate={{
+        background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(99,102,241,0.15), transparent 80%)`
+      }}
+    />
+  );
+};
+
 const BackgroundWaves = () => {
   return (
     <svg className="w-full h-full opacity-30" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
@@ -138,6 +163,9 @@ export default function App() {
 
   return (
     <div className="relative text-slate-300 font-sans selection:bg-indigo-500/30 selection:text-indigo-300 overflow-hidden bg-gradient-to-b from-[#05050A] to-[#0A0A14]">
+      {/* Interactive Light */}
+      <MouseLighting />
+
       {/* Premium Background */}
       <div className="fixed inset-0 -z-50">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]" />
