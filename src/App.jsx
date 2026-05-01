@@ -10,6 +10,7 @@ const ContactSection = React.lazy(() => import('./components/ContactSection'));
 const ArchitectureSection = React.lazy(() => import('./components/ArchitectureSection'));
 const TerminalSection = React.lazy(() => import('./components/TerminalSection'));
 const CertificationsSection = React.lazy(() => import('./components/CertificationsSection'));
+const SystemDashboardSection = React.lazy(() => import('./components/SystemDashboardSection'));
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -211,7 +212,8 @@ export default function App() {
             </div>
           </div>
         }>
-          <div className="space-y-32">
+          <div className="space-y-40">
+            <SystemDashboardSection />
             <TerminalSection />
             <ArchitectureSection />
             <CertificationsSection />
@@ -348,13 +350,11 @@ const HeroSection = React.memo(() => {
       </motion.div>
       
       <h1 className="text-5xl sm:text-7xl md:text-9xl font-black text-white mb-6 tracking-tighter leading-tight font-display">
-        Hi, I'm <Typewriter texts={["Biswajit Behera", "a DevOps Expert", "a Cloud Architect"]} />
+        I design & build <span className="gradient-text"><Typewriter texts={["Cloud Infrastructure", "CI/CD Pipelines", "Reliable Systems", "SRE Automation"]} /></span>
       </h1>
       
       <p className="max-w-2xl text-base sm:text-xl text-slate-400 mb-12 leading-relaxed font-medium">
-        Automating <span className="text-white font-bold px-1 underline decoration-cyan-500/30 decoration-4">Infrastructure</span> | 
-        Scaling <span className="text-white font-bold px-1 underline decoration-indigo-500/30 decoration-4">Deployments</span> | 
-        Specializing in <span className="text-cyan-400 font-bold font-display tracking-tight">Kubernetes & AWS Cloud</span>
+        I design and automate scalable, production-grade cloud infrastructure. Building resilient systems and enabling developers to ship faster.
       </p>
       
       <div className="flex flex-wrap justify-center gap-5 sm:gap-8">

@@ -64,6 +64,15 @@
   @apply opacity-100;
 }
 
+@keyframes slideUp {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+.animate-slide-up {
+  animation: slideUp 10s linear infinite;
+}
+
 .gpu-accelerated {
   transform: translateZ(0);
   will-change: transform, filter;
