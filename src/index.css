@@ -73,6 +73,60 @@
   animation: slideUp 10s linear infinite;
 }
 
+/* Contact Section Custom Effects */
+.scanlines::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.2)
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.15;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0) }
+  20% { transform: translate(-2px, 1px) }
+  40% { transform: translate(-1px, -1px) }
+  60% { transform: translate(2px, 1px) }
+  80% { transform: translate(1px, -1px) }
+  100% { transform: translate(0) }
+}
+
+.glitch-hover:hover {
+  animation: glitch 0.2s linear infinite;
+}
+
+.neon-border-animated {
+  position: relative;
+}
+.neon-border-animated::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(90deg, #00FFC8, #7C3AED, #00FFC8);
+  background-size: 200% 100%;
+  animation: bg-pan-right 3s linear infinite;
+  border-radius: inherit;
+  z-index: -1;
+}
+
+@keyframes bg-pan-right {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
 .gpu-accelerated {
   transform: translateZ(0);
   will-change: transform, filter;

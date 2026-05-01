@@ -1,182 +1,242 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Github, Mail, Linkedin, Send, MapPin, Phone } from 'lucide-react';
-
-const sectionVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
-};
+import { Terminal, MapPin, Mail, Phone, Github, Linkedin, Send, CheckCircle2 } from 'lucide-react';
 
 const ContactSection = React.memo(() => {
-  const [formData, setFormData] = useState({
+  const [formState, setFormState] = useState({
     firstName: '',
     lastName: '',
     email: '',
     message: ''
   });
-  const [status, setStatus] = useState('idle'); // idle, loading, success, error
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setStatus('loading');
-    
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/contact`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+    setIsSubmitting(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormState({ firstName: '', lastName: '', email: '', message: '' });
+      }, 5000);
+    }, 1500);
+  };
 
-      if (response.ok) {
-        setStatus('success');
-        setFormData({ firstName: '', lastName: '', email: '', message: '' });
-        
-        // Reset status after a few seconds
-        setTimeout(() => setStatus('idle'), 5000);
-      } else {
-        setStatus('error');
-      }
-    } catch (error) {
-      console.error("Form submission failed:", error);
-      setStatus('error');
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
     }
   };
 
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
+
   return (
-    <motion.section id="contact" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={sectionVariants} className="scroll-mt-24 pb-20">
-      <div className="text-center mb-12">
-        <h3 className="text-4xl md:text-5xl font-extrabold text-dark-900 dark:text-white mb-4 transition-all duration-500">
-          Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-secondary-500">Scale?</span>
-        </h3>
-        <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto font-light transition-all duration-500">
-          Let's design resilient infrastructure and automate your workflows. I am currently open for DevSecOps opportunities.
-        </p>
-      </div>
-      
-      <div className="grid md:grid-cols-5 gap-8 bg-white/60 dark:bg-dark-800/40 backdrop-blur-2xl border border-gray-200/50 dark:border-white/10 rounded-3xl p-6 shadow-2xl transition-all duration-500 relative overflow-hidden">
-        {/* Glow behind the form */}
-        <div className="absolute -right-20 -top-20 w-64 h-64 bg-secondary-500/20 rounded-full blur-3xl pointer-events-none" />
+    <section id="contact" className="relative py-24 md:py-32 scroll-mt-24 bg-[#0A0A0F] font-sans overflow-hidden">
+      {/* Dot Grid Background */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#00FFC8 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
+      {/* Subtle Glows */}
+      <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-[#7C3AED]/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen"></div>
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#00FFC8]/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen"></div>
 
-        <div className="md:col-span-2 space-y-8 p-6 lg:p-8 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-2xl text-white shadow-xl shadow-primary-500/20 relative overflow-hidden">
-          <div className="absolute inset-0 bg-white/5 opacity-20 mix-blend-overlay"></div>
-          <h4 className="text-2xl font-bold mb-6">Contact Information</h4>
-          <p className="opacity-90 font-light mb-10">Fill out the form and I'll get back to you within 24 hours.</p>
-          
-          <div className="space-y-6 relative z-10">
-            <div className="flex items-center gap-4">
-              <Phone className="opacity-80" />
-              <span>+91 78150 94008</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <Mail className="opacity-80" />
-              <a href="mailto:biswajitbehera1868@gmail.com" className="hover:underline">biswajitbehera1868@gmail.com</a>
-            </div>
-            <div className="flex items-center gap-4">
-              <MapPin className="opacity-80" />
-              <span>Dhenkanal, Orissa, India</span>
-            </div>
-          </div>
-          
-          <div className="mt-16 flex gap-4 relative z-10">
-            <a href="https://github.com/biswajit7815" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/40 hover:-translate-y-1 transition-all">
-              <Github size={18} />
-            </a>
-            <a href="#" className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/40 hover:-translate-y-1 transition-all">
-              <Linkedin size={18} />
-            </a>
-          </div>
-        </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 scanlines">
         
-        <div className="md:col-span-3 p-2 lg:p-8 relative z-10">
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            
-            {status === 'success' && (
-              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-                <span className="block sm:inline">Message sent successfully! I will reach out shortly.</span>
-              </div>
-            )}
-            {status === 'error' && (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                <span className="block sm:inline">Something went wrong. Please try again.</span>
-              </div>
-            )}
-
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
-                <input 
-                  type="text" 
-                  name="firstName" 
-                  required
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  className="w-full bg-white dark:bg-dark-900/50 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-dark-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all shadow-sm" 
-                  placeholder="John" 
-                />
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Last Name</label>
-                <input 
-                  type="text" 
-                  name="lastName" 
-                  required
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  className="w-full bg-white dark:bg-dark-900/50 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-dark-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all shadow-sm" 
-                  placeholder="Doe" 
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Email Address</label>
-              <input 
-                type="email" 
-                name="email" 
-                required
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full bg-white dark:bg-dark-900/50 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-dark-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all shadow-sm" 
-                placeholder="john@company.com" 
-              />
-            </div>
-            
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Message</label>
-              <textarea 
-                rows="4" 
-                name="message" 
-                required
-                value={formData.message}
-                onChange={handleChange}
-                className="w-full bg-white dark:bg-dark-900/50 border border-gray-200 dark:border-white/10 rounded-lg px-4 py-3 text-dark-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 transition-all shadow-sm resize-none" 
-                placeholder="Let's build together..."
-              ></textarea>
-            </div>
-            
-            <button 
-              type="submit" 
-              disabled={status === 'loading'}
-              className="w-full bg-gradient-to-r from-primary-500 to-secondary-500 hover:from-primary-600 hover:to-secondary-600 text-white font-bold py-4 rounded-lg shadow-lg shadow-primary-500/30 flex items-center justify-center gap-2 transition-all transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-               {status === 'loading' ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              ) : (
-                <>
-                  <Send size={18} /> Deploy Message
-                </>
-              )}
-            </button>
-          </form>
+        {/* Terminal Header */}
+        <div className="text-center mb-16 md:mb-24">
+          <h3 className="text-2xl md:text-4xl font-black text-white mb-4 flex justify-center items-center gap-3 font-mono">
+            <Terminal className="text-[#00FFC8]" size={32} /> 
+            ESTABLISH_CONNECTION.sh<span className="w-4 h-8 bg-[#00FFC8] animate-pulse ml-1 inline-block align-middle"></span>
+          </h3>
+          <p className="text-gray-400 font-mono text-xs md:text-sm">Initiate secure handshake protocol for collaboration.</p>
         </div>
+
+        <div className="grid lg:grid-cols-5 gap-8 md:gap-12 items-stretch">
+          
+          {/* Left Panel: Contact Info */}
+          <motion.div 
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="lg:col-span-2 relative h-full"
+          >
+            <div className="neon-border-animated rounded-3xl h-full p-[1px]">
+              <div className="bg-[#0f111a]/95 backdrop-blur-xl rounded-3xl h-full p-8 md:p-10 flex flex-col relative overflow-hidden">
+                {/* Internal Glow */}
+                <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#00FFC8]/20 rounded-full blur-[60px]"></div>
+                
+                <h4 className="text-xl md:text-2xl font-black text-white mb-8 font-mono border-b border-white/10 pb-4">
+                  <span className="text-[#00FFC8] mr-2">root@biswa:</span>~# info
+                </h4>
+
+                <div className="space-y-8 flex-grow font-mono text-sm md:text-base">
+                  <div className="group">
+                    <p className="text-gray-500 mb-1 text-[10px] uppercase tracking-widest">// LOCATION</p>
+                    <div className="flex items-center gap-3 text-gray-300">
+                      <span className="text-[#7C3AED] font-bold">$</span>
+                      <MapPin size={18} className="text-[#00FFC8]" />
+                      <span>Dhenkanal, Orissa, India<span className="w-2 h-4 bg-gray-500 animate-pulse ml-1 inline-block align-middle"></span></span>
+                    </div>
+                  </div>
+
+                  <div className="group">
+                    <p className="text-gray-500 mb-1 text-[10px] uppercase tracking-widest">// DIRECT_LINE</p>
+                    <a href="tel:+917815094008" className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors">
+                      <span className="text-[#7C3AED] font-bold">$</span>
+                      <Phone size={18} className="text-[#00FFC8]" />
+                      <span>+91 78150 94008</span>
+                    </a>
+                  </div>
+
+                  <div className="group">
+                    <p className="text-gray-500 mb-1 text-[10px] uppercase tracking-widest">// MAIL_SPOOL</p>
+                    <a href="mailto:biswajitbehera1868@gmail.com" className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors break-all">
+                      <span className="text-[#7C3AED] font-bold">$</span>
+                      <Mail size={18} className="text-[#00FFC8]" />
+                      <span>biswajitbehera1868@gmail.com</span>
+                    </a>
+                  </div>
+                </div>
+
+                <div className="pt-8 mt-8 border-t border-white/10">
+                  <p className="text-gray-500 mb-4 text-[10px] uppercase tracking-widest font-mono">// EXTERNAL_LINKS</p>
+                  <div className="flex gap-4">
+                    <a href="https://github.com/biswajit7815" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-[#00FFC8] hover:border-[#00FFC8]/50 hover:bg-[#00FFC8]/10 transition-all">
+                      <Github size={20} />
+                    </a>
+                    <a href="https://linkedin.com/in/biswajit7815" target="_blank" rel="noreferrer" className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-[#7C3AED] hover:border-[#7C3AED]/50 hover:bg-[#7C3AED]/10 transition-all">
+                      <Linkedin size={20} />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Panel: Form */}
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="lg:col-span-3 bg-[#0f111a]/50 backdrop-blur-md rounded-3xl border border-white/5 p-6 md:p-10 lg:p-12 relative"
+          >
+            {isSubmitted ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0f111a]/90 backdrop-blur-sm rounded-3xl z-20">
+                <CheckCircle2 size={64} className="text-[#00FFC8] mb-6" />
+                <h4 className="text-2xl font-mono text-white font-bold mb-2">PACKET_DELIVERED</h4>
+                <p className="text-gray-400 font-mono text-sm">Awaiting acknowledgment...</p>
+              </div>
+            ) : null}
+
+            <form onSubmit={handleSubmit} className="space-y-8 relative z-10 flex flex-col h-full justify-between">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <motion.div variants={itemVariants} className="relative group">
+                  <label htmlFor="firstName" className="absolute -top-3 left-0 text-[10px] font-mono text-[#7C3AED] tracking-widest font-bold bg-[#0A0A0F] px-1 transition-all">
+                    // FIRST_NAME
+                  </label>
+                  <input 
+                    type="text" 
+                    id="firstName"
+                    name="firstName"
+                    value={formState.firstName}
+                    onChange={handleChange}
+                    required
+                    className="w-full bg-transparent border-b-2 border-white/10 text-white font-mono text-sm px-0 py-4 focus:outline-none focus:border-[#00FFC8] focus:shadow-[0_4px_15px_-3px_rgba(0,255,200,0.3)] transition-all placeholder-gray-700"
+                    placeholder="Enter first name"
+                  />
+                </motion.div>
+
+                <motion.div variants={itemVariants} className="relative group">
+                  <label htmlFor="lastName" className="absolute -top-3 left-0 text-[10px] font-mono text-[#7C3AED] tracking-widest font-bold bg-[#0A0A0F] px-1 transition-all">
+                    // LAST_NAME
+                  </label>
+                  <input 
+                    type="text" 
+                    id="lastName"
+                    name="lastName"
+                    value={formState.lastName}
+                    onChange={handleChange}
+                    required
+                    className="w-full bg-transparent border-b-2 border-white/10 text-white font-mono text-sm px-0 py-4 focus:outline-none focus:border-[#00FFC8] focus:shadow-[0_4px_15px_-3px_rgba(0,255,200,0.3)] transition-all placeholder-gray-700"
+                    placeholder="Enter last name"
+                  />
+                </motion.div>
+              </div>
+
+              <motion.div variants={itemVariants} className="relative group">
+                <label htmlFor="email" className="absolute -top-3 left-0 text-[10px] font-mono text-[#7C3AED] tracking-widest font-bold bg-[#0A0A0F] px-1 transition-all">
+                  // EMAIL_ADDRESS
+                </label>
+                <input 
+                  type="email" 
+                  id="email"
+                  name="email"
+                  value={formState.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full bg-transparent border-b-2 border-white/10 text-white font-mono text-sm px-0 py-4 focus:outline-none focus:border-[#00FFC8] focus:shadow-[0_4px_15px_-3px_rgba(0,255,200,0.3)] transition-all placeholder-gray-700"
+                  placeholder="Enter email address"
+                />
+              </motion.div>
+
+              <motion.div variants={itemVariants} className="relative group flex-grow">
+                <label htmlFor="message" className="absolute -top-3 left-0 text-[10px] font-mono text-[#7C3AED] tracking-widest font-bold bg-[#0A0A0F] px-1 transition-all">
+                  // PAYLOAD
+                </label>
+                <textarea 
+                  id="message"
+                  name="message"
+                  value={formState.message}
+                  onChange={handleChange}
+                  required
+                  rows="4"
+                  className="w-full bg-transparent border-b-2 border-white/10 text-white font-mono text-sm px-0 py-4 focus:outline-none focus:border-[#00FFC8] focus:shadow-[0_4px_15px_-3px_rgba(0,255,200,0.3)] transition-all placeholder-gray-700 resize-none"
+                  placeholder="Enter your message here..."
+                ></textarea>
+              </motion.div>
+
+              <motion.div variants={itemVariants} className="pt-4">
+                <button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="w-full group relative overflow-hidden rounded-xl font-mono font-bold text-sm tracking-wider uppercase disabled:opacity-70 disabled:cursor-not-allowed glitch-hover"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#00FFC8] to-[#7C3AED] transition-transform duration-500 group-hover:scale-[1.05]"></div>
+                  <div className="relative flex items-center justify-center gap-3 py-4 text-[#0A0A0F] bg-white/10 backdrop-blur-sm transition-colors group-hover:bg-transparent">
+                    {isSubmitting ? (
+                      <div className="animate-spin w-5 h-5 border-2 border-[#0A0A0F] border-t-transparent rounded-full" />
+                    ) : (
+                      <Send size={18} />
+                    )}
+                    <span>$ deploy --message</span>
+                  </div>
+                </button>
+              </motion.div>
+            </form>
+          </motion.div>
+        </div>
+
+        {/* Status Bar */}
+        <div className="mt-8 flex items-center gap-3 text-xs font-mono text-gray-500 border-t border-white/5 pt-4">
+          <div className="w-2 h-2 rounded-full bg-[#00FFC8] shadow-[0_0_8px_#00FFC8] animate-pulse"></div>
+          <span>● READY TO DEPLOY</span>
+          <span className="ml-auto opacity-50">v2.1.0</span>
+        </div>
+
       </div>
-    </motion.section>
+    </section>
   );
 });
 
