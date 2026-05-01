@@ -44,20 +44,19 @@ const ContactSection = React.memo(() => {
   };
 
   return (
-    <section id="contact" className="relative py-24 md:py-32 scroll-mt-24 bg-[#0A0A0F] font-sans overflow-hidden">
+    <section id="contact" className="relative py-24 md:py-32 scroll-mt-24 bg-[#05050A] font-sans overflow-hidden">
       {/* Dot Grid Background */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#00FFC8 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
+      <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(rgba(255,255,255,0.2) 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
       {/* Subtle Glows */}
-      <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-[#7C3AED]/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen"></div>
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#00FFC8]/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen"></div>
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-[#7C3AED]/10 rounded-full blur-[120px] pointer-events-none mix-blend-screen"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 scanlines">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
         
         {/* Terminal Header */}
         <div className="text-center mb-16 md:mb-24">
           <h3 className="text-2xl md:text-4xl font-black text-white mb-4 flex justify-center items-center gap-3 font-mono">
-            <Terminal className="text-[#00FFC8]" size={32} /> 
-            ESTABLISH_CONNECTION.sh<span className="w-4 h-8 bg-[#00FFC8] animate-pulse ml-1 inline-block align-middle"></span>
+            <span className="text-[#00FFC8] font-bold">&gt;_</span> 
+            ESTABLISH_CONNECTION.sh<span className="w-4 h-8 bg-[#00FFC8] animate-pulse inline-block align-middle ml-1"></span>
           </h3>
           <p className="text-gray-400 font-mono text-xs md:text-sm">Initiate secure handshake protocol for collaboration.</p>
         </div>
@@ -71,40 +70,40 @@ const ContactSection = React.memo(() => {
             viewport={{ once: true, margin: "-100px" }}
             className="lg:col-span-2 relative h-full"
           >
-            <div className="neon-border-animated rounded-3xl h-full p-[1px]">
-              <div className="bg-[#0f111a]/95 backdrop-blur-xl rounded-3xl h-full p-8 md:p-10 flex flex-col relative overflow-hidden">
+            <div className="rounded-3xl h-full p-[2px] bg-gradient-to-br from-[#00FFC8] to-[#7C3AED]">
+              <div className="bg-[#0f111a] rounded-3xl h-full p-8 md:p-10 flex flex-col relative overflow-hidden">
                 {/* Internal Glow */}
                 <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#00FFC8]/20 rounded-full blur-[60px]"></div>
                 
-                <h4 className="text-xl md:text-2xl font-black text-white mb-8 font-mono border-b border-white/10 pb-4">
-                  <span className="text-[#00FFC8] mr-2">root@biswa:</span>~# info
+                <h4 className="text-xl md:text-2xl font-bold mb-8 font-mono border-b border-white/10 pb-6">
+                  <span className="text-[#00FFC8] mr-2">root@biswa:</span><span className="text-white">~# info</span>
                 </h4>
 
                 <div className="space-y-8 flex-grow font-mono text-sm md:text-base">
                   <div className="group">
-                    <p className="text-gray-500 mb-1 text-[10px] uppercase tracking-widest">// LOCATION</p>
+                    <p className="text-gray-500 mb-2 text-xs font-bold tracking-widest">// LOCATION</p>
                     <div className="flex items-center gap-3 text-gray-300">
                       <span className="text-[#7C3AED] font-bold">$</span>
                       <MapPin size={18} className="text-[#00FFC8]" />
-                      <span>Dhenkanal, Orissa, India<span className="w-2 h-4 bg-gray-500 animate-pulse ml-1 inline-block align-middle"></span></span>
+                      <span className="text-white">Dhenkanal, Orissa, India<span className="w-2 h-4 bg-gray-500 animate-pulse ml-1 inline-block align-middle"></span></span>
                     </div>
                   </div>
 
                   <div className="group">
-                    <p className="text-gray-500 mb-1 text-[10px] uppercase tracking-widest">// DIRECT_LINE</p>
+                    <p className="text-gray-500 mb-2 text-xs font-bold tracking-widest">// DIRECT_LINE</p>
                     <a href="tel:+917815094008" className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors">
                       <span className="text-[#7C3AED] font-bold">$</span>
                       <Phone size={18} className="text-[#00FFC8]" />
-                      <span>+91 78150 94008</span>
+                      <span className="text-white">+91 78150 94008</span>
                     </a>
                   </div>
 
                   <div className="group">
-                    <p className="text-gray-500 mb-1 text-[10px] uppercase tracking-widest">// MAIL_SPOOL</p>
+                    <p className="text-gray-500 mb-2 text-xs font-bold tracking-widest">// MAIL_SPOOL</p>
                     <a href="mailto:biswajitbehera1868@gmail.com" className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors break-all">
                       <span className="text-[#7C3AED] font-bold">$</span>
                       <Mail size={18} className="text-[#00FFC8]" />
-                      <span>biswajitbehera1868@gmail.com</span>
+                      <span className="text-white">biswajitbehera1868@gmail.com</span>
                     </a>
                   </div>
                 </div>
@@ -130,7 +129,7 @@ const ContactSection = React.memo(() => {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            className="lg:col-span-3 bg-[#0f111a]/50 backdrop-blur-md rounded-3xl border border-white/5 p-6 md:p-10 lg:p-12 relative"
+            className="lg:col-span-3 bg-[#0f111a] rounded-3xl border border-white/5 p-6 md:p-10 relative"
           >
             {isSubmitted ? (
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0f111a]/90 backdrop-blur-sm rounded-3xl z-20">
@@ -143,7 +142,7 @@ const ContactSection = React.memo(() => {
             <form onSubmit={handleSubmit} className="space-y-8 relative z-10 flex flex-col h-full justify-between">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <motion.div variants={itemVariants} className="relative group">
-                  <label htmlFor="firstName" className="absolute -top-3 left-0 text-[10px] font-mono text-[#7C3AED] tracking-widest font-bold bg-[#0A0A0F] px-1 transition-all">
+                  <label htmlFor="firstName" className="block text-xs font-mono text-[#7C3AED] tracking-widest font-bold mb-2 transition-all">
                     // FIRST_NAME
                   </label>
                   <input 
@@ -153,13 +152,13 @@ const ContactSection = React.memo(() => {
                     value={formState.firstName}
                     onChange={handleChange}
                     required
-                    className="w-full bg-transparent border-b-2 border-white/10 text-white font-mono text-sm px-0 py-4 focus:outline-none focus:border-[#00FFC8] focus:shadow-[0_4px_15px_-3px_rgba(0,255,200,0.3)] transition-all placeholder-gray-700"
+                    className="w-full bg-transparent border-b border-white/20 text-white font-mono text-sm px-0 py-2 focus:outline-none focus:border-[#00FFC8] transition-all placeholder-gray-600"
                     placeholder="Enter first name"
                   />
                 </motion.div>
 
                 <motion.div variants={itemVariants} className="relative group">
-                  <label htmlFor="lastName" className="absolute -top-3 left-0 text-[10px] font-mono text-[#7C3AED] tracking-widest font-bold bg-[#0A0A0F] px-1 transition-all">
+                  <label htmlFor="lastName" className="block text-xs font-mono text-[#7C3AED] tracking-widest font-bold mb-2 transition-all">
                     // LAST_NAME
                   </label>
                   <input 
@@ -169,14 +168,14 @@ const ContactSection = React.memo(() => {
                     value={formState.lastName}
                     onChange={handleChange}
                     required
-                    className="w-full bg-transparent border-b-2 border-white/10 text-white font-mono text-sm px-0 py-4 focus:outline-none focus:border-[#00FFC8] focus:shadow-[0_4px_15px_-3px_rgba(0,255,200,0.3)] transition-all placeholder-gray-700"
+                    className="w-full bg-transparent border-b border-white/20 text-white font-mono text-sm px-0 py-2 focus:outline-none focus:border-[#00FFC8] transition-all placeholder-gray-600"
                     placeholder="Enter last name"
                   />
                 </motion.div>
               </div>
 
               <motion.div variants={itemVariants} className="relative group">
-                <label htmlFor="email" className="absolute -top-3 left-0 text-[10px] font-mono text-[#7C3AED] tracking-widest font-bold bg-[#0A0A0F] px-1 transition-all">
+                <label htmlFor="email" className="block text-xs font-mono text-[#7C3AED] tracking-widest font-bold mb-2 transition-all">
                   // EMAIL_ADDRESS
                 </label>
                 <input 
@@ -186,13 +185,13 @@ const ContactSection = React.memo(() => {
                   value={formState.email}
                   onChange={handleChange}
                   required
-                  className="w-full bg-transparent border-b-2 border-white/10 text-white font-mono text-sm px-0 py-4 focus:outline-none focus:border-[#00FFC8] focus:shadow-[0_4px_15px_-3px_rgba(0,255,200,0.3)] transition-all placeholder-gray-700"
+                  className="w-full bg-transparent border-b border-white/20 text-white font-mono text-sm px-0 py-2 focus:outline-none focus:border-[#00FFC8] transition-all placeholder-gray-600"
                   placeholder="Enter email address"
                 />
               </motion.div>
 
               <motion.div variants={itemVariants} className="relative group flex-grow">
-                <label htmlFor="message" className="absolute -top-3 left-0 text-[10px] font-mono text-[#7C3AED] tracking-widest font-bold bg-[#0A0A0F] px-1 transition-all">
+                <label htmlFor="message" className="block text-xs font-mono text-[#7C3AED] tracking-widest font-bold mb-2 transition-all">
                   // PAYLOAD
                 </label>
                 <textarea 
@@ -202,7 +201,7 @@ const ContactSection = React.memo(() => {
                   onChange={handleChange}
                   required
                   rows="4"
-                  className="w-full bg-transparent border-b-2 border-white/10 text-white font-mono text-sm px-0 py-4 focus:outline-none focus:border-[#00FFC8] focus:shadow-[0_4px_15px_-3px_rgba(0,255,200,0.3)] transition-all placeholder-gray-700 resize-none"
+                  className="w-full bg-transparent border-b border-white/20 text-white font-mono text-sm px-0 py-2 focus:outline-none focus:border-[#00FFC8] transition-all placeholder-gray-600 resize-none"
                   placeholder="Enter your message here..."
                 ></textarea>
               </motion.div>
@@ -211,17 +210,16 @@ const ContactSection = React.memo(() => {
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="w-full group relative overflow-hidden rounded-xl font-mono font-bold text-sm tracking-wider uppercase disabled:opacity-70 disabled:cursor-not-allowed glitch-hover"
+                  className="w-full flex items-center justify-center gap-3 py-4 rounded-xl font-mono font-black text-sm tracking-widest uppercase disabled:opacity-70 disabled:cursor-not-allowed bg-gradient-to-r from-[#00FFC8] to-[#7C3AED] text-[#0A0A0F] hover:shadow-[0_0_30px_rgba(0,255,200,0.4)] transition-all transform hover:scale-[1.02]"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#00FFC8] to-[#7C3AED] transition-transform duration-500 group-hover:scale-[1.05]"></div>
-                  <div className="relative flex items-center justify-center gap-3 py-4 text-[#0A0A0F] bg-white/10 backdrop-blur-sm transition-colors group-hover:bg-transparent">
-                    {isSubmitting ? (
-                      <div className="animate-spin w-5 h-5 border-2 border-[#0A0A0F] border-t-transparent rounded-full" />
-                    ) : (
-                      <Send size={18} />
-                    )}
-                    <span>$ deploy --message</span>
-                  </div>
+                  {isSubmitting ? (
+                    <div className="animate-spin w-5 h-5 border-2 border-[#0A0A0F] border-t-transparent rounded-full" />
+                  ) : (
+                    <>
+                      <Send size={18} className="text-[#0A0A0F]" />
+                      <span>$ DEPLOY --MESSAGE</span>
+                    </>
+                  )}
                 </button>
               </motion.div>
             </form>
