@@ -139,11 +139,12 @@ const GithubSection = React.memo(({ repos, loading }) => {
               <div className="animate-spin w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full" />
             </div>
           ) : (
-            <div className="grid sm:grid-cols-2 gap-4">
-              {repos.map((repo) => (
-                <motion.a 
-                  href={repo.html_url} target="_blank" rel="noreferrer"
-                  key={repo.id}
+            <div className="flex flex-col gap-6">
+              <div className="grid sm:grid-cols-2 gap-4">
+                {repos.slice(0, 6).map((repo) => (
+                  <motion.a 
+                    href={repo.html_url} target="_blank" rel="noreferrer"
+                    key={repo.id}
                   whileHover={{ scale: 1.02 }}
                   className="glass-card p-5 md:p-6 rounded-2xl border border-white/5 hover:border-indigo-500/30 transition-all flex flex-col h-full"
                 >
@@ -169,6 +170,18 @@ const GithubSection = React.memo(({ repos, loading }) => {
                   </div>
                 </motion.a>
               ))}
+              </div>
+              
+              <div className="flex justify-center mt-2">
+                <a 
+                  href={`https://github.com/${username}?tab=repositories`} 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="flex items-center gap-2 px-6 py-3 bg-indigo-500/20 hover:bg-indigo-500 text-indigo-300 hover:text-white border border-indigo-500/50 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(99,102,241,0.1)] hover:shadow-[0_0_30px_rgba(99,102,241,0.4)] text-sm"
+                >
+                  <Github size={18} /> View All Projects on GitHub
+                </a>
+              </div>
             </div>
           )}
         </div>
