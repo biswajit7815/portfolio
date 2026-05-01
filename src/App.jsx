@@ -78,13 +78,13 @@ const BackgroundWaves = () => {
           initial={{ cx: "10%", cy: "10%" }}
           animate={{ cx: ["10%", "90%", "10%"], cy: ["10%", "50%", "10%"] }}
           transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
-          r="180" fill="rgba(6,182,212,0.05)" 
+          r="180" fill="rgba(59,130,246,0.08)" 
         />
         <motion.circle 
           initial={{ cx: "90%", cy: "80%" }}
           animate={{ cx: ["90%", "10%", "90%"], cy: ["80%", "20%", "80%"] }}
           transition={{ duration: 40, repeat: Infinity, ease: "easeInOut" }}
-          r="240" fill="rgba(99,102,241,0.05)" 
+          r="240" fill="rgba(139,92,246,0.08)" 
         />
       </g>
     </svg>
@@ -101,6 +101,7 @@ export default function App() {
 
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isPhotoOpen, setIsPhotoOpen] = useState(false);
 
   // Enforce dark mode
   useEffect(() => {
@@ -136,28 +137,42 @@ export default function App() {
   }, []);
 
   return (
-    <div className="relative text-slate-300 font-sans selection:bg-cyan-500/30 selection:text-cyan-400 overflow-hidden">
+    <div className="relative text-slate-300 font-sans selection:bg-indigo-500/30 selection:text-indigo-300 overflow-hidden bg-gradient-to-b from-[#05050A] to-[#0A0A14]">
       {/* Premium Background */}
-      <div className="fixed inset-0 -z-50 bg-[#030307]">
-        <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/stardust.png")'}}></div>
-        
-        {/* Animated Blobs */}
-        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-cyan-500/10 rounded-full blur-[140px] animate-pulse"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-indigo-500/10 rounded-full blur-[140px] animate-pulse" style={{animationDelay: '2s'}}></div>
+      <div className="fixed inset-0 -z-50">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]" />
+        <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-indigo-500/10 via-transparent to-transparent blur-[100px]" />
       </div>
       
-      <div className="fixed inset-0 -z-40 pointer-events-none">
+      <div className="fixed inset-0 -z-40 pointer-events-none opacity-40 mix-blend-screen">
         <BackgroundWaves />
       </div>
 
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-500 z-[100] origin-left"
+        className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-blue-500 via-indigo-500 to-violet-500 z-[100] origin-left shadow-[0_0_15px_rgba(99,102,241,0.5)]"
         style={{ scaleX }}
       />
 
-      <Navbar />
+      <Navbar onPhotoClick={() => setIsPhotoOpen(true)} />
       
-      <main className="max-w-6xl mx-auto pt-12 space-y-32 px-6">
+      <AnimatePresence>
+        {isPhotoOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-xl p-4"
+            onClick={() => setIsPhotoOpen(false)}
+          >
+            <motion.div 
+              initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
+              className="relative max-w-2xl w-full aspect-square rounded-full overflow-hidden border-4 border-indigo-500/30 shadow-[0_0_100px_rgba(99,102,241,0.2)]"
+            >
+              <img src="https://github.com/biswajit7815.png" alt="Biswajit Behera" className="w-full h-full object-cover" />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <main className="max-w-7xl mx-auto pt-12 space-y-40 px-6">
         <HeroSection />
         
         <Suspense fallback={
@@ -185,7 +200,7 @@ export default function App() {
   );
 }
 
-function Navbar() {
+function Navbar({ onPhotoClick }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -204,18 +219,21 @@ function Navbar() {
 
   return (
     <nav className={`fixed top-0 w-full z-[90] transition-all duration-500 ${isScrolled ? 'py-4' : 'py-8'}`}>
-      <div className="max-w-6xl mx-auto px-6">
-        <div className={`glass-card rounded-[2rem] flex items-center justify-between px-8 h-16 transition-all duration-500 ${isScrolled ? 'shadow-glow-cyan/10 border-white/10' : 'bg-transparent border-transparent shadow-none'}`}>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-cyan-500/20 transform hover:rotate-12 transition-transform cursor-pointer border-2 border-cyan-500/50">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className={`glass-card rounded-[2rem] flex items-center justify-between px-8 h-16 transition-all duration-500 ${isScrolled ? 'shadow-[0_8px_32px_rgba(0,0,0,0.4)] border-white/10 bg-[#0A0A14]/80' : 'bg-transparent border-transparent shadow-none'}`}>
+          <div className="flex items-center gap-4">
+            <div 
+              onClick={onPhotoClick}
+              className="w-11 h-11 rounded-full overflow-hidden shadow-[0_0_20px_rgba(99,102,241,0.3)] transform hover:scale-110 transition-transform cursor-pointer border border-indigo-500/50"
+            >
               <img 
                 src="https://github.com/biswajit7815.png" 
                 alt="Logo" 
                 className="w-full h-full object-cover"
               />
             </div>
-            <span className="text-2xl font-black tracking-tighter text-white font-display">
-              biswa<span className="text-cyan-400">.dev</span>
+            <span className="text-2xl font-bold tracking-tighter text-white font-display">
+              biswa<span className="text-indigo-400">.dev</span>
             </span>
           </div>
           
