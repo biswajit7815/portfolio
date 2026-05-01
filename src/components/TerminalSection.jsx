@@ -11,11 +11,15 @@ const TerminalSection = React.memo(() => {
   const bottomRef = useRef(null);
 
   const commands = {
-    help: 'Available commands: whoami, skills, clear, sudo, date',
+    help: 'Available commands: whoami, skills, clear, sudo, date, joke, ping',
     whoami: 'Biswajit Behera - DevSecOps Engineer & Cloud Architect',
     skills: 'AWS, Kubernetes, Docker, Terraform, CI/CD, Python, Linux',
-    sudo: 'Permission denied. This incident will be reported.',
-    date: new Date().toString()
+    sudo: 'Permission denied. This incident will be reported to the orchestration layer.',
+    date: new Date().toString(),
+    joke: 'Why do Java programmers have to wear glasses? Because they don\'t C#.',
+    ping: 'Pong! Latency: 42ms. Connection to cloud infrastructure is stable.',
+    rm: 'Nice try! rm -rf / is disabled in this simulation.',
+    'konami': 'Cheat code activated: Infinite CPU scaling unlocked! 🚀'
   };
 
   useEffect(() => {
