@@ -207,8 +207,12 @@ function Navbar() {
       <div className="max-w-6xl mx-auto px-6">
         <div className={`glass-card rounded-[2rem] flex items-center justify-between px-8 h-16 transition-all duration-500 ${isScrolled ? 'shadow-glow-cyan/10 border-white/10' : 'bg-transparent border-transparent shadow-none'}`}>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-indigo-500 flex items-center justify-center font-black text-white shadow-lg shadow-cyan-500/20 transform hover:rotate-12 transition-transform cursor-pointer">
-              B
+            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg shadow-cyan-500/20 transform hover:rotate-12 transition-transform cursor-pointer border-2 border-cyan-500/50">
+              <img 
+                src="https://github.com/biswajit7815.png" 
+                alt="Logo" 
+                className="w-full h-full object-cover"
+              />
             </div>
             <span className="text-2xl font-black tracking-tighter text-white font-display">
               biswa<span className="text-cyan-400">.dev</span>
@@ -445,7 +449,16 @@ const Footer = React.memo(() => {
     <footer className="border-t border-white/5 py-16 transition-all duration-500 relative z-10 bg-dark-900/80 backdrop-blur-md">
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-12">
         <div className="space-y-6">
-          <div className="text-2xl font-black text-white">biswa<span className="text-primary-400">.dev</span></div>
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg overflow-hidden border border-cyan-500/50 shadow-lg shadow-cyan-500/20">
+              <img 
+                src="https://github.com/biswajit7815.png" 
+                alt="Logo" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="text-2xl font-black text-white">biswa<span className="text-cyan-400">.dev</span></div>
+          </div>
           <p className="text-gray-500 text-sm">
             Innovating through automation. Dedicated to building world-class infrastructure.
           </p>
