@@ -26,10 +26,14 @@ const GithubSection = React.memo(({ repos, loading }) => {
       <div className="grid lg:grid-cols-2 gap-8 mb-12">
         <motion.div 
           whileHover={{ scale: 1.02 }}
-          className="glass-card rounded-3xl p-6 flex items-center justify-center overflow-hidden border border-white/10 shadow-[0_0_40px_rgba(6,182,212,0.1)]"
+          className="glass-card rounded-3xl p-6 flex flex-col items-center justify-center overflow-hidden border border-white/10 shadow-[0_0_40px_rgba(99,102,241,0.1)]"
         >
+          <h4 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4 flex items-center gap-2">
+            <Activity size={16} className="text-indigo-400" />
+            GitHub Stats
+          </h4>
           <img 
-            src={`https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&theme=transparent&title_color=06b6d4&text_color=9ca3af&icon_color=06b6d4&border_color=ffffff00&hide_border=true&bg_color=ffffff00`} 
+            src={`https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&theme=transparent&title_color=818cf8&text_color=9ca3af&icon_color=818cf8&border_color=ffffff00&hide_border=true&bg_color=ffffff00`} 
             alt="GitHub Stats" 
             className="w-full max-w-md"
           />
@@ -37,17 +41,19 @@ const GithubSection = React.memo(({ repos, loading }) => {
         
         <motion.div 
           whileHover={{ scale: 1.02 }}
-          className="glass-card rounded-3xl p-6 flex flex-col items-center justify-center overflow-hidden border border-white/10 shadow-[0_0_40px_rgba(168,85,247,0.1)]"
+          className="glass-card rounded-3xl p-6 flex flex-col items-center justify-center overflow-hidden border border-white/10 shadow-[0_0_40px_rgba(139,92,246,0.1)]"
         >
           <h4 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4 flex items-center gap-2">
-            <Activity size={16} className="text-secondary-400" />
-            Top Languages
+            <Code size={16} className="text-violet-400" />
+            Contribution Graph
           </h4>
-          <img 
-            src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&layout=compact&theme=transparent&title_color=a855f7&text_color=9ca3af&icon_color=a855f7&border_color=ffffff00&hide_border=true&bg_color=ffffff00`} 
-            alt="Top Languages" 
-            className="w-full max-w-md"
-          />
+          <div className="w-full overflow-x-auto pb-2">
+            <img 
+              src={`https://ghchart.rshah.org/818cf8/${username}`} 
+              alt="GitHub Contributions Graph" 
+              className="w-full min-w-[500px]"
+            />
+          </div>
         </motion.div>
       </div>
 
