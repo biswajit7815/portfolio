@@ -16,17 +16,38 @@ const ContactSection = React.memo(() => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setTimeout(() => {
-        setIsSubmitted(false);
+    
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/biswajitbehera1868@gmail.com", {
+        method: "POST",
+        headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            name: `${formState.firstName} ${formState.lastName}`,
+            email: formState.email,
+            message: formState.message,
+            _subject: "New Message from Portfolio!"
+        })
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
         setFormState({ firstName: '', lastName: '', email: '', message: '' });
-      }, 5000);
-    }, 1500);
+      } else {
+        alert("Oops! Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error sending message. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setIsSubmitted(false), 5000);
+    }
   };
 
   return (
