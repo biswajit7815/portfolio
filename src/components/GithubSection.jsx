@@ -8,13 +8,13 @@ const sectionVariants = {
 };
 
 const CustomMetric = ({ icon, label, value, color }) => (
-  <div className={`p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-${color}-500/30 transition-all flex items-center gap-4 group`}>
-    <div className={`p-3 rounded-xl bg-${color}-500/10 text-${color}-400 group-hover:scale-110 transition-transform`}>
+  <div className={`p-3 md:p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-${color}-500/30 transition-all flex items-center gap-3 md:gap-4 group`}>
+    <div className={`p-2 md:p-3 rounded-xl bg-${color}-500/10 text-${color}-400 group-hover:scale-110 transition-transform`}>
       {icon}
     </div>
-    <div>
-      <div className="text-2xl font-black text-white">{value}</div>
-      <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{label}</div>
+    <div className="min-w-0 flex-1">
+      <div className="text-xl md:text-2xl font-black text-white">{value}</div>
+      <div className="text-[9px] md:text-[10px] font-bold text-gray-500 uppercase tracking-wider md:tracking-widest truncate">{label}</div>
     </div>
   </div>
 );
@@ -95,7 +95,7 @@ const GithubSection = React.memo(({ repos, loading }) => {
             </div>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
             <CustomMetric icon={<Activity />} label="CI/CD Pipelines" value="18" color="blue" />
             <CustomMetric icon={<Container />} label="Docker Images" value="42" color="indigo" />
             <CustomMetric icon={<Server />} label="K8s Clusters" value="6" color="violet" />
@@ -118,9 +118,9 @@ const GithubSection = React.memo(({ repos, loading }) => {
               { year: "2022", title: "Started with Docker", color: "violet" },
               { year: "2021", title: "Linux & Bash Scripting", color: "purple" }
             ].map((item, idx) => (
-              <div key={idx} className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                <div className={`flex items-center justify-center w-6 h-6 rounded-full border-2 border-[#0A0A14] bg-${item.color}-500 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2`}></div>
-                <div className="w-[calc(100%-3rem)] md:w-[calc(50%-1.5rem)] glass-card p-4 rounded-xl border border-white/5">
+              <div key={idx} className="relative flex items-start md:items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                <div className={`flex items-center justify-center w-6 h-6 rounded-full border-2 border-[#0A0A14] bg-${item.color}-500 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 mt-1 md:mt-0`}></div>
+                <div className="w-[calc(100%-2.5rem)] md:w-[calc(50%-1.5rem)] glass-card p-4 rounded-xl border border-white/5">
                   <div className={`text-${item.color}-400 font-bold text-xs mb-1`}>{item.year}</div>
                   <div className="text-white text-sm font-medium">{item.title}</div>
                 </div>
