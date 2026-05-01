@@ -43,9 +43,9 @@ const ShowcaseSection = React.memo(() => {
 
   return (
     <motion.section id="projects" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={sectionVariants} className="scroll-mt-24">
-      <div className="text-center mb-20 px-4">
-        <h3 className="text-4xl md:text-5xl font-black text-white mb-4 flex justify-center items-center gap-3 font-display">
-          <Code2 className="text-indigo-400" size={40} /> 
+      <div className="text-center mb-10 md:mb-20 px-4">
+        <h3 className="text-3xl md:text-5xl font-black text-white mb-4 flex justify-center items-center gap-2 md:gap-3 font-display">
+          <Code2 className="text-indigo-400" size={32} /> 
           Engineering <span className="gradient-text">Case Studies</span>
         </h3>
         <p className="text-gray-400 max-w-2xl mx-auto">Real-world problems solved with scalable architecture and automation.</p>
@@ -57,7 +57,7 @@ const ShowcaseSection = React.memo(() => {
           <motion.div 
             key={i}
             whileHover={{ y: -5, scale: 1.01 }}
-            className="glass-card rounded-[2.5rem] p-8 md:p-12 border border-white/10 group relative overflow-hidden flex flex-col lg:flex-row gap-10 items-center hover:border-indigo-500/30 transition-all duration-500"
+            className="glass-card rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-12 border border-white/10 group relative overflow-hidden flex flex-col lg:flex-row gap-6 md:gap-10 items-start md:items-center hover:border-indigo-500/30 transition-all duration-500"
           >
             {/* Background Glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none group-hover:bg-indigo-500/10 transition-colors"></div>
@@ -67,7 +67,7 @@ const ShowcaseSection = React.memo(() => {
                 <div className="p-4 bg-white/5 rounded-2xl border border-white/10 group-hover:border-indigo-500/30 transition-colors">
                   {project.icon}
                 </div>
-                <h4 className="text-2xl md:text-3xl font-black text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-indigo-400 transition-all">
+                <h4 className="text-xl md:text-3xl font-black text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-400 group-hover:to-indigo-400 transition-all leading-tight">
                   {project.title}
                 </h4>
               </div>

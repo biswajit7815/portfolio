@@ -24,9 +24,9 @@ const GithubSection = React.memo(({ repos, loading }) => {
 
   return (
     <motion.section id="github" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={sectionVariants} className="scroll-mt-24">
-      <div className="text-center mb-16 relative px-4">
-        <h3 className="text-3xl md:text-5xl font-black text-white mb-4 flex justify-center items-center gap-3 font-display">
-          <Github className="text-indigo-400" size={40} /> 
+      <div className="text-center mb-10 md:mb-16 relative px-4">
+        <h3 className="text-3xl md:text-5xl font-black text-white mb-4 flex justify-center items-center gap-2 md:gap-3 font-display">
+          <Github className="text-indigo-400" size={32} /> 
           Engineering <span className="gradient-text">Activity</span>
         </h3>
         <p className="text-gray-400 text-sm md:text-base max-w-xl mx-auto">
@@ -39,12 +39,12 @@ const GithubSection = React.memo(({ repos, loading }) => {
         {/* Profile Stats Overview */}
         <motion.div 
           whileHover={{ y: -5 }}
-          className="lg:col-span-1 glass-card rounded-[2rem] p-8 border border-white/10 relative overflow-hidden flex flex-col justify-between"
+          className="lg:col-span-1 glass-card rounded-[2rem] p-6 md:p-8 border border-white/10 relative overflow-hidden flex flex-col justify-between"
         >
           <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500/10 rounded-full blur-[60px]"></div>
           
           <div>
-            <div className="flex justify-between items-start mb-8 relative z-10">
+            <div className="flex justify-between items-start mb-6 md:mb-8 relative z-10">
               <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-indigo-500/50 p-1">
                 <img src={`https://github.com/${username}.png`} alt="Profile" className="w-full h-full rounded-full object-cover" />
               </div>
@@ -95,7 +95,7 @@ const GithubSection = React.memo(({ repos, loading }) => {
             </div>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             <CustomMetric icon={<Activity />} label="CI/CD Pipelines" value="18" color="blue" />
             <CustomMetric icon={<Container />} label="Docker Images" value="42" color="indigo" />
             <CustomMetric icon={<Server />} label="K8s Clusters" value="6" color="violet" />
@@ -105,8 +105,8 @@ const GithubSection = React.memo(({ repos, loading }) => {
       </div>
 
       {/* Activity Timeline & Live Repos */}
-      <div className="grid lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-1 glass-card rounded-[2rem] p-8 border border-white/10">
+      <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="lg:col-span-1 glass-card rounded-[2rem] p-6 md:p-8 border border-white/10">
           <h4 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-8 flex items-center gap-2">
             <TrendingUp size={16} className="text-violet-400" />
             Growth Timeline
