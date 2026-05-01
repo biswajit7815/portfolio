@@ -137,7 +137,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    fetch('https://api.github.com/users/biswajit7815/repos?sort=updated&per_page=6')
+    fetch('https://api.github.com/users/biswajit7815/repos?sort=updated&per_page=12')
       .then(res => res.json())
       .then(data => {
         if(Array.isArray(data)) setRepos(data);

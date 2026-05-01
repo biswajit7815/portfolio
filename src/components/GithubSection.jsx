@@ -139,16 +139,16 @@ const GithubSection = React.memo(({ repos, loading }) => {
               <div className="animate-spin w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full" />
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 gap-4">
-              {repos.slice(0, 4).map((repo) => (
+            <div className="grid sm:grid-cols-2 gap-4">
+              {repos.map((repo) => (
                 <motion.a 
                   href={repo.html_url} target="_blank" rel="noreferrer"
                   key={repo.id}
                   whileHover={{ scale: 1.02 }}
-                  className="glass-card p-6 rounded-2xl border border-white/5 hover:border-indigo-500/30 transition-all flex flex-col h-full"
+                  className="glass-card p-5 md:p-6 rounded-2xl border border-white/5 hover:border-indigo-500/30 transition-all flex flex-col h-full"
                 >
-                  <div className="flex justify-between items-start mb-4">
-                    <h5 className="text-base font-bold text-white truncate pr-4">{repo.name}</h5>
+                  <div className="flex justify-between items-start mb-3 md:mb-4">
+                    <h5 className="text-sm md:text-base font-bold text-white truncate pr-2">{repo.name}</h5>
                     <div className="flex gap-2 shrink-0">
                       <span className="flex items-center gap-1 text-[10px] font-bold text-gray-400 bg-white/5 px-2 py-1 rounded-md">
                         <Star size={12} className="text-yellow-500" /> {repo.stargazers_count}
@@ -158,14 +158,14 @@ const GithubSection = React.memo(({ repos, loading }) => {
                   <p className="text-gray-500 text-xs mb-4 flex-grow line-clamp-2">
                     {repo.description || 'Infrastructure as Code and DevOps tooling repository.'}
                   </p>
-                  <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                  <div className="flex items-center justify-between pt-3 md:pt-4 border-t border-white/5">
                     {repo.language ? (
                       <div className="flex items-center gap-1.5">
                         <div className="w-2 h-2 rounded-full bg-indigo-500" />
                         <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{repo.language}</span>
                       </div>
                     ) : <div></div>}
-                    <span className="text-[10px] text-gray-600 font-mono">Updated recently</span>
+                    <span className="text-[9px] md:text-[10px] text-gray-600 font-mono">Updated recently</span>
                   </div>
                 </motion.a>
               ))}
