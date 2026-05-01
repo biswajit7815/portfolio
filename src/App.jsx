@@ -8,6 +8,8 @@ const ShowcaseSection = React.lazy(() => import('./components/ShowcaseSection'))
 const ExperienceSection = React.lazy(() => import('./components/ExperienceSection'));
 const ContactSection = React.lazy(() => import('./components/ContactSection'));
 const ArchitectureSection = React.lazy(() => import('./components/ArchitectureSection'));
+const TerminalSection = React.lazy(() => import('./components/TerminalSection'));
+const CertificationsSection = React.lazy(() => import('./components/CertificationsSection'));
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -60,10 +62,6 @@ const Typewriter = ({ texts, delay = 150, pause = 2000 }) => {
     </span>
   );
 };
-  }, [text, isDeleting, index, texts]);
-
-  return <span className="gradient-text drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]">{text}</span>;
-}
 
 const BackgroundWaves = () => {
   return (
@@ -114,6 +112,14 @@ export default function App() {
       .then(res => res.json())
       .then(data => {
         if(Array.isArray(data)) setRepos(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, []);
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -163,9 +169,11 @@ export default function App() {
           </div>
         }>
           <div className="space-y-32">
+            <TerminalSection />
             <ArchitectureSection />
+            <CertificationsSection />
             <ShowcaseSection />
-            <GithubSection />
+            <GithubSection repos={repos} loading={loading} />
             <ExperienceSection />
             <ContactSection />
           </div>

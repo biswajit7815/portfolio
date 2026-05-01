@@ -38,7 +38,7 @@
 
 .neon-border::before {
   content: "";
-  @apply absolute -inset-[1px] bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-500 rounded-inherit opacity-30 blur-sm -z-10 transition-opacity duration-500;
+  @apply absolute -inset-[1px] bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-500 rounded-[inherit] opacity-30 blur-sm -z-10 transition-opacity duration-500;
 }
 
 .neon-border:hover::before {
