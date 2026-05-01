@@ -203,7 +203,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <main className="max-w-7xl mx-auto pt-12 space-y-40 px-6">
+      <main className="max-w-7xl mx-auto pt-12 space-y-24 md:space-y-40 px-4 sm:px-6">
         <HeroSection />
         
         <Suspense fallback={
@@ -252,9 +252,9 @@ function Navbar({ onPhotoClick }) {
   ];
 
   return (
-    <nav className={`fixed top-0 w-full z-[90] transition-all duration-500 ${isScrolled ? 'py-4' : 'py-8'}`}>
-      <div className="max-w-7xl mx-auto px-6">
-        <div className={`glass-card rounded-[2rem] flex items-center justify-between px-8 h-16 transition-all duration-500 ${isScrolled ? 'shadow-[0_8px_32px_rgba(0,0,0,0.4)] border-white/10 bg-[#0A0A14]/80' : 'bg-transparent border-transparent shadow-none'}`}>
+    <nav className={`fixed top-0 w-full z-[90] transition-all duration-500 ${isScrolled ? 'py-2 md:py-4' : 'py-4 md:py-8'}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className={`glass-card rounded-[2rem] flex items-center justify-between px-4 sm:px-8 h-16 transition-all duration-500 ${isScrolled ? 'shadow-[0_8px_32px_rgba(0,0,0,0.4)] border-white/10 bg-[#0A0A14]/80' : 'bg-transparent border-transparent shadow-none'}`}>
           <div className="flex items-center gap-4">
             <div 
               onClick={onPhotoClick}
@@ -311,9 +311,9 @@ function Navbar({ onPhotoClick }) {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="absolute top-full left-6 right-6 mt-4 md:hidden z-[100]"
+            className="absolute top-full left-4 right-4 sm:left-6 sm:right-6 mt-4 md:hidden z-[100]"
           >
-            <div className="glass-card rounded-[2.5rem] p-10 flex flex-col gap-8 items-center border border-white/10 shadow-2xl backdrop-blur-3xl">
+            <div className="glass-card rounded-[2.5rem] p-6 sm:p-10 flex flex-col gap-6 items-center border border-white/10 shadow-2xl backdrop-blur-3xl">
                {navLinks.map((item) => (
                 <a 
                   key={item.name} 
@@ -341,7 +341,7 @@ const HeroSection = React.memo(() => {
   return (
     <motion.section 
       initial="hidden" animate="visible" variants={sectionVariants}
-      className="min-h-[85vh] flex flex-col justify-center items-center text-center relative pt-20 px-4"
+      className="min-h-[85vh] flex flex-col justify-center items-center text-center relative pt-24 md:pt-20 px-4"
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.5 }}
@@ -353,11 +353,11 @@ const HeroSection = React.memo(() => {
         <span className="font-black tracking-widest uppercase text-[10px] font-display">System Status: Operational</span>
       </motion.div>
       
-      <h1 className="text-5xl sm:text-7xl md:text-9xl font-black text-white mb-6 tracking-tighter leading-tight font-display">
+      <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black text-white mb-6 tracking-tighter leading-tight font-display break-words">
         I design & build <span className="gradient-text"><Typewriter texts={["Cloud Infrastructure", "CI/CD Pipelines", "Reliable Systems", "SRE Automation"]} /></span>
       </h1>
       
-      <p className="max-w-2xl text-base sm:text-xl text-slate-400 mb-12 leading-relaxed font-medium">
+      <p className="max-w-2xl text-sm sm:text-base md:text-xl text-slate-400 mb-10 md:mb-12 leading-relaxed font-medium px-4">
         I design and automate scalable, production-grade cloud infrastructure. Building resilient systems and enabling developers to ship faster.
       </p>
       
@@ -389,7 +389,7 @@ const HeroSection = React.memo(() => {
 const AboutSection = React.memo(() => {
   return (
     <motion.section id="about" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={sectionVariants} className="scroll-mt-24">
-      <div className="grid lg:grid-cols-2 gap-16 items-center">
+      <div className="grid lg:grid-cols-2 gap-10 md:gap-16 items-center">
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-tr from-primary-500 to-secondary-500 rounded-[2rem] blur-3xl opacity-20 animate-pulse"></div>
           <div className="relative z-10 neon-border rounded-[2.5rem] overflow-hidden">

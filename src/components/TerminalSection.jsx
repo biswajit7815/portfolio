@@ -55,11 +55,11 @@ const TerminalSection = React.memo(() => {
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      className="max-w-4xl mx-auto my-32 px-6"
+      className="max-w-4xl mx-auto my-16 md:my-32 px-4 sm:px-6"
     >
       <div className="glass-card rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
         {/* Terminal Header */}
-        <div className="bg-[#0f111a] px-4 py-3 flex items-center justify-between border-b border-white/10">
+        <div className="bg-[#0f111a] px-3 md:px-4 py-3 flex items-center justify-between border-b border-white/10">
           <div className="flex gap-2">
             <div className="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.5)]"></div>
             <div className="w-3 h-3 rounded-full bg-yellow-500 shadow-[0_0_10px_rgba(234,179,8,0.5)]"></div>
@@ -76,7 +76,7 @@ const TerminalSection = React.memo(() => {
         </div>
 
         {/* Terminal Body */}
-        <div className="bg-[#030307]/80 backdrop-blur-md p-6 h-[350px] overflow-y-auto font-mono text-sm shadow-inner">
+        <div className="bg-[#030307]/80 backdrop-blur-md p-4 md:p-6 h-[250px] md:h-[350px] overflow-y-auto font-mono text-xs md:text-sm shadow-inner">
           <div className="space-y-2">
             {output.map((line, i) => (
               <div key={i} className={`${

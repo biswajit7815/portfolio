@@ -51,12 +51,12 @@ const SystemDashboardSection = React.memo(() => {
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      className="max-w-7xl mx-auto my-32 px-6 scroll-mt-24"
+      className="max-w-7xl mx-auto my-16 md:my-32 px-4 sm:px-6 scroll-mt-24"
     >
-      <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-white/5 pb-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-12 border-b border-white/5 pb-6">
         <div>
-          <h3 className="text-3xl md:text-4xl font-black text-white mb-2 flex items-center gap-3 font-display">
-            <Activity className="text-indigo-400" size={32} /> 
+          <h3 className="text-2xl md:text-4xl font-black text-white mb-2 flex flex-wrap items-center gap-2 md:gap-3 font-display">
+            <Activity className="text-indigo-400" size={28} /> 
             Live System <span className="gradient-text">Telemetry</span>
           </h3>
           <p className="text-gray-400 text-sm font-medium tracking-wide">
@@ -105,7 +105,7 @@ const SystemDashboardSection = React.memo(() => {
       </div>
 
       {/* Simulated Server Logs */}
-      <div className="mt-8 glass-card rounded-[2rem] p-6 border border-white/5 font-mono text-xs">
+      <div className="mt-8 glass-card rounded-[1.5rem] md:rounded-[2rem] p-4 md:p-6 border border-white/5 font-mono text-[10px] md:text-xs">
          <div className="flex justify-between items-center mb-4 text-gray-500 border-b border-white/5 pb-2">
             <span>Terminal / Logs</span>
             <span className="flex gap-2"><div className="w-2 h-2 rounded-full bg-red-500"></div><div className="w-2 h-2 rounded-full bg-yellow-500"></div><div className="w-2 h-2 rounded-full bg-green-500"></div></span>
