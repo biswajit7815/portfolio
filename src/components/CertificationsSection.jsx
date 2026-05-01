@@ -9,21 +9,21 @@ const CertificationsSection = React.memo(() => {
       issuer: "Amazon Web Services",
       date: "2023",
       status: "Active",
-      badgeUrl: "https://d1.awsstatic.com/training-and-certification/certification-badges/AWS-Certified-Solutions-Architect-Associate_badge_150x150.png"
+      badgeUrl: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg"
     },
     {
       name: "Certified Kubernetes Administrator (CKA)",
       issuer: "Cloud Native Computing Foundation",
       date: "Expected 2024",
       status: "In Progress",
-      badgeUrl: "https://landscape.cncf.io/images/projects/kubernetes-icon-color.svg"
+      badgeUrl: "https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg"
     },
     {
       name: "HashiCorp Certified: Terraform Associate",
       issuer: "HashiCorp",
       date: "2023",
       status: "Active",
-      badgeUrl: "https://www.datocms-assets.com/2885/1629941242-logo-terraform-main.svg"
+      badgeUrl: "https://upload.wikimedia.org/wikipedia/commons/0/04/Terraform_Logo.svg"
     }
   ];
 
