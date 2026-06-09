@@ -3,6 +3,10 @@ import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import { Github, Mail, Activity, ChevronDown, Terminal, Cloud, Container, GitBranch, Server, Code, Linkedin, Download, ExternalLink, Layers } from 'lucide-react';
 import OptimizedImage from './components/OptimizedImage';
 
+if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
+  window.history.scrollRestoration = 'manual';
+}
+
 const AboutSection = React.lazy(() => import('./components/AboutSection'));
 const SkillsSection = React.lazy(() => import('./components/SkillsSection'));
 const GithubSection = React.lazy(() => import('./components/GithubSection'));
@@ -81,9 +85,38 @@ export default function App() {
   const [isPhotoOpen, setIsPhotoOpen] = useState(false);
   const handlePhotoClick = useCallback(() => setIsPhotoOpen(true), []);
 
-  // Enforce dark mode
+  // Enforce dark mode and handle scroll restoration
   useEffect(() => {
     document.documentElement.classList.add('dark');
+    
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    // Force scroll to top immediately on mount
+    window.scrollTo(0, 0);
+
+    // Override delayed browser scroll restoration attempts
+    const t1 = setTimeout(() => window.scrollTo(0, 0), 10);
+    const t2 = setTimeout(() => window.scrollTo(0, 0), 100);
+    const t3 = setTimeout(() => window.scrollTo(0, 0), 300);
+
+    const hash = window.location.hash;
+    if (hash) {
+      // Delay scrolling to target hash until components mount
+      setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 600);
+    }
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
   }, []);
 
   useEffect(() => {
