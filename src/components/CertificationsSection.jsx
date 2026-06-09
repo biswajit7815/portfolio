@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Award, CheckCircle2 } from 'lucide-react';
+import OptimizedImage from './OptimizedImage';
 
 const CertificationsSection = React.memo(() => {
   const certifications = [
@@ -50,7 +51,13 @@ const CertificationsSection = React.memo(() => {
             
             <div className="relative z-10">
               <div className="w-24 h-24 mb-6 mx-auto bg-white/5 rounded-full flex items-center justify-center p-4">
-                <img src={cert.badgeUrl} alt={cert.issuer} className="w-full h-full object-contain" />
+                <OptimizedImage 
+                  src={cert.badgeUrl} 
+                  alt={cert.issuer} 
+                  width={64}
+                  height={64}
+                  className="w-full h-full object-contain" 
+                />
               </div>
               
               <h4 className="text-xl font-bold text-white mb-2 leading-tight h-14 flex items-center justify-center">

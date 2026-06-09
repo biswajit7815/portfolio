@@ -2,19 +2,53 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Activity, Server, Box, GitMerge, CheckCircle2, AlertCircle } from 'lucide-react';
 
+const statusColors = {
+  green: {
+    bg: 'bg-green-500/10',
+    text: 'text-green-400',
+    border: 'border-green-500/20',
+    glow: 'bg-green-500/10'
+  },
+  yellow: {
+    bg: 'bg-yellow-500/10',
+    text: 'text-yellow-400',
+    border: 'border-yellow-500/20',
+    glow: 'bg-yellow-500/10'
+  },
+  blue: {
+    bg: 'bg-blue-500/10',
+    text: 'text-blue-400',
+    border: 'border-blue-500/20',
+    glow: 'bg-blue-500/10'
+  },
+  purple: {
+    bg: 'bg-purple-500/10',
+    text: 'text-purple-400',
+    border: 'border-purple-500/20',
+    glow: 'bg-purple-500/10'
+  },
+  indigo: {
+    bg: 'bg-indigo-500/10',
+    text: 'text-indigo-400',
+    border: 'border-indigo-500/20',
+    glow: 'bg-indigo-500/10'
+  }
+};
+
 const StatCard = ({ icon, title, value, unit, status, trend }) => {
+  const styles = statusColors[status] || statusColors.blue;
   return (
     <motion.div 
       whileHover={{ y: -5 }}
       className="glass-card rounded-[2rem] p-6 border border-white/5 relative overflow-hidden group"
     >
-      <div className={`absolute top-0 right-0 w-32 h-32 bg-${status}-500/10 rounded-full blur-[50px] -mr-10 -mt-10 transition-opacity group-hover:opacity-100 opacity-50`}></div>
+      <div className={`absolute top-0 right-0 w-32 h-32 ${styles.glow} rounded-full blur-[50px] -mr-10 -mt-10 transition-opacity group-hover:opacity-100 opacity-50`}></div>
       
       <div className="flex justify-between items-start mb-4 relative z-10">
-        <div className={`p-3 rounded-xl bg-${status}-500/10 text-${status}-400 border border-${status}-500/20`}>
+        <div className={`p-3 rounded-xl ${styles.bg} ${styles.text} border ${styles.border}`}>
           {icon}
         </div>
-        <div className={`flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-full bg-${status}-500/10 text-${status}-400`}>
+        <div className={`flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-full ${styles.bg} ${styles.text}`}>
           {status === 'green' ? <CheckCircle2 size={12} /> : <AlertCircle size={12} />}
           {trend}
         </div>

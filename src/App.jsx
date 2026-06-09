@@ -1,8 +1,11 @@
-import React, { useState, useEffect, Suspense, useMemo } from 'react';
+import React, { useState, useEffect, Suspense, useMemo, useCallback, useRef } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import Lenis from '@studio-freight/lenis';
 import { Github, Mail, Activity, ChevronDown, Terminal, Cloud, Container, GitBranch, Server, Code, Linkedin, Download, ExternalLink, Layers } from 'lucide-react';
+import OptimizedImage from './components/OptimizedImage';
 
+const AboutSection = React.lazy(() => import('./components/AboutSection'));
+const SkillsSection = React.lazy(() => import('./components/SkillsSection'));
 const GithubSection = React.lazy(() => import('./components/GithubSection'));
 const ShowcaseSection = React.lazy(() => import('./components/ShowcaseSection'));
 const ExperienceSection = React.lazy(() => import('./components/ExperienceSection'));
@@ -67,25 +70,36 @@ const Typewriter = ({ texts, delay = 150, pause = 2000 }) => {
 };
 
 const MouseLighting = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const containerRef = useRef(null);
 
   useEffect(() => {
+    let frameId;
     const updateMousePosition = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      if (!containerRef.current) return;
+      const x = e.clientX;
+      const y = e.clientY;
+      cancelAnimationFrame(frameId);
+      frameId = requestAnimationFrame(() => {
+        if (containerRef.current) {
+          containerRef.current.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(99,102,241,0.15), transparent 80%)`;
+        }
+      });
     };
 
-    window.addEventListener('mousemove', updateMousePosition);
+    window.addEventListener('mousemove', updateMousePosition, { passive: true });
 
     return () => {
       window.removeEventListener('mousemove', updateMousePosition);
+      cancelAnimationFrame(frameId);
     };
   }, []);
 
   return (
-    <motion.div
-      className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300"
-      animate={{
-        background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(99,102,241,0.15), transparent 80%)`
+    <div
+      ref={containerRef}
+      className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300 gpu-accelerated"
+      style={{
+        background: 'radial-gradient(600px circle at 0px 0px, rgba(99,102,241,0.15), transparent 80%)'
       }}
     />
   );
@@ -93,29 +107,24 @@ const MouseLighting = () => {
 
 const BackgroundWaves = () => {
   return (
-    <svg className="w-full h-full opacity-30" viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <filter id="goo">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blur" />
-          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
-          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-        </filter>
-      </defs>
-      <g filter="url(#goo)">
-        <motion.circle 
-          initial={{ cx: "10%", cy: "10%" }}
-          animate={{ cx: ["10%", "90%", "10%"], cy: ["10%", "50%", "10%"] }}
-          transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
-          r="180" fill="rgba(59,130,246,0.08)" 
-        />
-        <motion.circle 
-          initial={{ cx: "90%", cy: "80%" }}
-          animate={{ cx: ["90%", "10%", "90%"], cy: ["80%", "20%", "80%"] }}
-          transition={{ duration: 40, repeat: Infinity, ease: "easeInOut" }}
-          r="240" fill="rgba(139,92,246,0.08)" 
-        />
-      </g>
-    </svg>
+    <div className="absolute inset-0 overflow-hidden opacity-30 pointer-events-none">
+      <div 
+        className="absolute w-[360px] h-[360px] rounded-full bg-blue-500/10 blur-[80px] gpu-accelerated"
+        style={{
+          left: '10%',
+          top: '10%',
+          animation: 'blob-move-1 30s infinite ease-in-out'
+        }}
+      />
+      <div 
+        className="absolute w-[480px] h-[480px] rounded-full bg-purple-500/10 blur-[100px] gpu-accelerated"
+        style={{
+          right: '10%',
+          bottom: '10%',
+          animation: 'blob-move-2 40s infinite ease-in-out'
+        }}
+      />
+    </div>
   );
 }
 
@@ -130,6 +139,7 @@ export default function App() {
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isPhotoOpen, setIsPhotoOpen] = useState(false);
+  const handlePhotoClick = useCallback(() => setIsPhotoOpen(true), []);
 
   // Enforce dark mode
   useEffect(() => {
@@ -137,7 +147,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    fetch('https://api.github.com/users/biswajit7815/repos?sort=updated&per_page=12')
+    const res = fetch('https://api.github.com/users/biswajit7815/repos?sort=updated&per_page=12')
       .then(res => res.json())
       .then(data => {
         if(Array.isArray(data)) setRepos(data);
@@ -156,12 +166,18 @@ export default function App() {
       smoothWheel: true,
     });
 
+    let rafId;
     function raf(time) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+      cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
@@ -184,7 +200,7 @@ export default function App() {
         style={{ scaleX }}
       />
 
-      <Navbar onPhotoClick={() => setIsPhotoOpen(true)} />
+      <Navbar onPhotoClick={handlePhotoClick} />
       
       <AnimatePresence>
         {isPhotoOpen && (
@@ -197,7 +213,13 @@ export default function App() {
               initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
               className="relative max-w-2xl w-full aspect-square rounded-full overflow-hidden border-4 border-indigo-500/30 shadow-[0_0_100px_rgba(99,102,241,0.2)]"
             >
-              <img src="https://github.com/biswajit7815.png" alt="Biswajit Behera" className="w-full h-full object-cover" />
+              <OptimizedImage 
+                src="https://github.com/biswajit7815.png" 
+                alt="Biswajit Behera" 
+                width={600}
+                height={600}
+                className="w-full h-full object-cover" 
+              />
             </motion.div>
           </motion.div>
         )}
@@ -215,9 +237,11 @@ export default function App() {
           </div>
         }>
           <div className="space-y-40">
+            <AboutSection />
             <SystemDashboardSection />
             <DeploymentSimulation />
             <TerminalSection />
+            <SkillsSection />
             <ArchitectureSection />
             <CertificationsSection />
             <ShowcaseSection />
@@ -234,13 +258,17 @@ export default function App() {
   );
 }
 
-function Navbar({ onPhotoClick }) {
+const Navbar = React.memo(({ onPhotoClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      // Throttle state update to only trigger when crossing the threshold
+      const shouldBeScrolled = window.scrollY > 50;
+      setIsScrolled(prev => prev !== shouldBeScrolled ? shouldBeScrolled : prev);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -260,9 +288,12 @@ function Navbar({ onPhotoClick }) {
               onClick={onPhotoClick}
               className="w-11 h-11 rounded-full overflow-hidden shadow-[0_0_20px_rgba(99,102,241,0.3)] transform hover:scale-110 transition-transform cursor-pointer border border-indigo-500/50"
             >
-              <img 
+              <OptimizedImage 
                 src="https://github.com/biswajit7815.png" 
                 alt="Logo" 
+                width={44}
+                height={44}
+                priority={true}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -335,7 +366,7 @@ function Navbar({ onPhotoClick }) {
       </AnimatePresence>
     </nav>
   );
-}
+});
 
 const HeroSection = React.memo(() => {
   return (
@@ -386,114 +417,6 @@ const HeroSection = React.memo(() => {
   );
 });
 
-const AboutSection = React.memo(() => {
-  return (
-    <motion.section id="about" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={sectionVariants} className="scroll-mt-24">
-      <div className="grid lg:grid-cols-2 gap-10 md:gap-16 items-center">
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary-500 to-secondary-500 rounded-[2rem] blur-3xl opacity-20 animate-pulse"></div>
-          <div className="relative z-10 neon-border rounded-[2.5rem] overflow-hidden">
-             <img 
-               src="https://github.com/biswajit7815.png" 
-               alt="Biswajit Behera Profile" 
-               className="w-full aspect-square object-cover"
-             />
-             <div className="absolute bottom-6 left-6 right-6 glass-card p-4 rounded-2xl flex items-center gap-4">
-                <div className="w-3 h-3 bg-green-500 rounded-full animate-ping"></div>
-                <span className="text-sm font-bold text-white">Available for worldwide projects</span>
-             </div>
-          </div>
-        </div>
-
-        <div className="space-y-8">
-          <div>
-            <h3 className="text-4xl md:text-5xl font-black text-white mb-2">About <span className="gradient-text">Me</span></h3>
-            <div className="w-20 h-1.5 bg-primary-500 rounded-full"></div>
-          </div>
-          
-          <p className="text-xl text-gray-300 font-medium italic">
-            "Bridging the gap between code and infrastructure with automation."
-          </p>
-
-          <p className="text-gray-400 leading-relaxed text-lg">
-            I am a passionate <span className="text-white font-semibold">DevSecOps Engineer</span> focused on building resilient, self-healing, and scalable environments. 
-            Everything that can be automated, should be automated. My mission is to simplify complex deployment workflows and enable developers to ship code faster and securely.
-          </p>
-
-          <div className="grid grid-cols-2 gap-6">
-            <div className="glass-card p-6 rounded-2xl">
-              <div className="text-3xl font-black text-primary-400 mb-1">5+</div>
-              <div className="text-sm font-bold text-gray-500 uppercase tracking-widest">Key Projects</div>
-            </div>
-            <div className="glass-card p-6 rounded-2xl">
-              <div className="text-3xl font-black text-secondary-400 mb-1">10+</div>
-              <div className="text-sm font-bold text-gray-500 uppercase tracking-widest">Tools Mastered</div>
-            </div>
-          </div>
-
-          <div className="flex gap-4">
-            <a href="https://linkedin.com" target="_blank" className="p-4 glass-card hover:bg-primary-500 transition-all rounded-2xl text-white">
-              <Linkedin size={24} />
-            </a>
-            <a href="https://github.com/biswajit7815" target="_blank" className="p-4 glass-card hover:bg-secondary-500 transition-all rounded-2xl text-white">
-              <Github size={24} />
-            </a>
-            <a href="mailto:biswajitbehera1868@gmail.com" className="p-4 glass-card hover:bg-accent-500 transition-all rounded-2xl text-white">
-              <Mail size={24} />
-            </a>
-          </div>
-        </div>
-      </div>
-    </motion.section>
-  );
-});
-
-const SkillsSection = React.memo(() => {
-  const skillCategories = [
-    { title: "Cloud", icon: <Cloud size={32} className="text-primary-400"/>, items: ["AWS (EC2, S3, IAM, VPC)", "Azure", "GCP"], glow: "from-primary-500/20 to-transparent" },
-    { title: "Containers", icon: <Container size={32} className="text-secondary-400"/>, items: ["Docker", "Kubernetes (K8s)", "Helm"], glow: "from-secondary-500/20 to-transparent" },
-    { title: "CI/CD", icon: <GitBranch size={32} className="text-green-400"/>, items: ["GitHub Actions", "Jenkins", "GitLab CI"], glow: "from-green-500/20 to-transparent" },
-    { title: "Monitoring", icon: <Activity size={32} className="text-accent-500"/>, items: ["Prometheus", "Grafana", "ELK Stack"], glow: "from-accent-500/20 to-transparent" },
-    { title: "IaC & Config", icon: <Server size={32} className="text-orange-400"/>, items: ["Terraform", "Ansible", "Pulumi"], glow: "from-orange-500/20 to-transparent" },
-    { title: "OS & Tools", icon: <Terminal size={32} className="text-yellow-400"/>, items: ["Linux (Ubuntu, CentOS)", "Bash", "Python"], glow: "from-yellow-500/20 to-transparent" }
-  ];
-
-  return (
-    <motion.section id="skills" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={sectionVariants} className="scroll-mt-24">
-      <div className="text-center mb-16">
-        <h3 className="text-4xl md:text-5xl font-black text-white mb-4">Technical <span className="gradient-text">Arsenal</span></h3>
-        <div className="w-24 h-1.5 bg-gradient-to-r from-primary-500 to-secondary-500 mx-auto rounded-full"></div>
-      </div>
-      
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {skillCategories.map((category, i) => (
-          <motion.div 
-            key={i} 
-            whileHover={{ y: -10 }}
-            className="glass-card rounded-[2rem] p-8 border border-white/5 relative overflow-hidden group transition-all duration-500"
-          >
-            <div className={`absolute inset-0 bg-gradient-to-br ${category.glow} opacity-0 group-hover:opacity-100 transition-opacity`}></div>
-            <div className="relative z-10">
-              <div className="mb-6 p-4 bg-white/5 w-fit rounded-2xl group-hover:scale-110 transition-transform">
-                {category.icon}
-              </div>
-              <h4 className="text-xl font-black text-white mb-4 uppercase tracking-widest">{category.title}</h4>
-              <ul className="space-y-3">
-                {category.items.map((item, j) => (
-                  <li key={j} className="flex items-center gap-3 text-gray-400 font-medium">
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary-500/50 group-hover:bg-primary-500 transition-colors" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </motion.section>
-  );
-});
-
 const Footer = React.memo(() => {
   return (
     <footer className="border-t border-white/5 py-16 transition-all duration-500 relative z-10 bg-dark-900/80 backdrop-blur-md">
@@ -501,9 +424,11 @@ const Footer = React.memo(() => {
         <div className="space-y-6">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg overflow-hidden border border-cyan-500/50 shadow-lg shadow-cyan-500/20">
-              <img 
+              <OptimizedImage 
                 src="https://github.com/biswajit7815.png" 
                 alt="Logo" 
+                width={32}
+                height={32}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -516,17 +441,17 @@ const Footer = React.memo(() => {
         <div className="space-y-6">
           <h5 className="font-bold text-white uppercase tracking-widest text-xs">Navigation</h5>
           <div className="grid grid-cols-2 gap-4 text-sm text-gray-400">
-            <a href="#about" className="hover:text-primary-400 transition-colors">About</a>
-            <a href="#projects" className="hover:text-primary-400 transition-colors">Projects</a>
-            <a href="#skills" className="hover:text-primary-400 transition-colors">Skills</a>
-            <a href="#contact" className="hover:text-primary-400 transition-colors">Contact</a>
+            <a href="#about" className="hover:text-cyan-400 transition-colors">About</a>
+            <a href="#projects" className="hover:text-cyan-400 transition-colors">Projects</a>
+            <a href="#skills" className="hover:text-cyan-400 transition-colors">Skills</a>
+            <a href="#contact" className="hover:text-cyan-400 transition-colors">Contact</a>
           </div>
         </div>
         <div className="space-y-6 text-right md:text-right">
            <h5 className="font-bold text-white uppercase tracking-widest text-xs">Let's Connect</h5>
            <div className="flex justify-end gap-6 text-gray-400">
-              <a href="https://github.com/biswajit7815" className="hover:text-white transition-colors"><Github size={20} /></a>
-              <a href="#" className="hover:text-white transition-colors"><Linkedin size={20} /></a>
+              <a href="https://github.com/biswajit7815" target="_blank" rel="noreferrer" className="hover:text-white transition-colors"><Github size={20} /></a>
+              <a href="https://linkedin.com/in/biswajit7815" target="_blank" rel="noreferrer" className="hover:text-white transition-colors"><Linkedin size={20} /></a>
               <a href="mailto:biswajitbehera1868@gmail.com" className="hover:text-white transition-colors"><Mail size={20} /></a>
            </div>
            <div className="text-xs text-gray-600">

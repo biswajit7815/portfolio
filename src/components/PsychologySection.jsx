@@ -46,27 +46,52 @@ const PsychologySection = React.memo(() => {
       </div>
 
       <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-        {reasons.map((item, i) => (
-          <motion.div 
-            key={i}
-            whileHover={{ y: -5, scale: 1.02 }}
-            className={`glass-card rounded-[2rem] p-6 sm:p-8 border border-${item.color}-500/10 hover:border-${item.color}-500/30 transition-all group relative overflow-hidden`}
-          >
-            <div className={`absolute -right-10 -top-10 w-32 h-32 bg-${item.color}-500/10 rounded-full blur-[40px] group-hover:bg-${item.color}-500/20 transition-colors`}></div>
-            
-            <div className="flex gap-6 items-start relative z-10">
-              <div className={`p-4 rounded-2xl bg-${item.color}-500/10 border border-${item.color}-500/20 group-hover:scale-110 transition-transform`}>
-                {item.icon}
+        {reasons.map((item, i) => {
+          const colorsMap = {
+            blue: {
+              border: 'border-blue-500/10 hover:border-blue-500/30',
+              glow: 'bg-blue-500/10 group-hover:bg-blue-500/20',
+              bg: 'bg-blue-500/10 border-blue-500/20'
+            },
+            yellow: {
+              border: 'border-yellow-500/10 hover:border-yellow-500/30',
+              glow: 'bg-yellow-500/10 group-hover:bg-yellow-500/20',
+              bg: 'bg-yellow-500/10 border-yellow-500/20'
+            },
+            indigo: {
+              border: 'border-indigo-500/10 hover:border-indigo-500/30',
+              glow: 'bg-indigo-500/10 group-hover:bg-indigo-500/20',
+              bg: 'bg-indigo-500/10 border-indigo-500/20'
+            },
+            purple: {
+              border: 'border-purple-500/10 hover:border-purple-500/30',
+              glow: 'bg-purple-500/10 group-hover:bg-purple-500/20',
+              bg: 'bg-purple-500/10 border-purple-500/20'
+            }
+          };
+          const styles = colorsMap[item.color] || colorsMap.blue;
+          return (
+            <motion.div 
+              key={i}
+              whileHover={{ y: -5, scale: 1.02 }}
+              className={`glass-card rounded-[2rem] p-6 sm:p-8 border ${styles.border} transition-all group relative overflow-hidden`}
+            >
+              <div className={`absolute -right-10 -top-10 w-32 h-32 ${styles.glow} rounded-full blur-[40px] transition-colors`}></div>
+              
+              <div className="flex gap-6 items-start relative z-10">
+                <div className={`p-4 rounded-2xl ${styles.bg} border group-hover:scale-110 transition-transform`}>
+                  {item.icon}
+                </div>
+                <div>
+                  <h4 className="text-xl font-bold text-white mb-2">{item.title}</h4>
+                  <p className="text-gray-400 leading-relaxed font-medium text-sm">
+                    {item.desc}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h4 className="text-xl font-bold text-white mb-2">{item.title}</h4>
-                <p className="text-gray-400 leading-relaxed font-medium text-sm">
-                  {item.desc}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        ))}
+            </motion.div>
+          );
+        })}
       </div>
     </motion.section>
   );

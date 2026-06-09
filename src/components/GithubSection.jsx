@@ -1,23 +1,50 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Github, Code, Star, GitFork, Activity, GitCommit, GitPullRequest, Container, Server, Terminal, Flame, TrendingUp } from 'lucide-react';
+import OptimizedImage from './OptimizedImage';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 40 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } }
 };
 
-const CustomMetric = ({ icon, label, value, color }) => (
-  <div className={`p-3 md:p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-${color}-500/30 transition-all flex items-center gap-3 md:gap-4 group`}>
-    <div className={`p-2 md:p-3 rounded-xl bg-${color}-500/10 text-${color}-400 group-hover:scale-110 transition-transform`}>
-      {icon}
+const metricColors = {
+  blue: {
+    border: 'hover:border-blue-500/30',
+    bg: 'bg-blue-500/10',
+    text: 'text-blue-400'
+  },
+  indigo: {
+    border: 'hover:border-indigo-500/30',
+    bg: 'bg-indigo-500/10',
+    text: 'text-indigo-400'
+  },
+  violet: {
+    border: 'hover:border-violet-500/30',
+    bg: 'bg-violet-500/10',
+    text: 'text-violet-400'
+  },
+  purple: {
+    border: 'hover:border-purple-500/30',
+    bg: 'bg-purple-500/10',
+    text: 'text-purple-400'
+  }
+};
+
+const CustomMetric = ({ icon, label, value, color }) => {
+  const styles = metricColors[color] || metricColors.blue;
+  return (
+    <div className={`p-3 md:p-4 rounded-2xl bg-white/5 border border-white/10 ${styles.border} transition-all flex items-center gap-3 md:gap-4 group`}>
+      <div className={`p-2 md:p-3 rounded-xl ${styles.bg} ${styles.text} group-hover:scale-110 transition-transform`}>
+        {icon}
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="text-xl md:text-2xl font-black text-white">{value}</div>
+        <div className="text-[9px] md:text-[10px] font-bold text-gray-500 uppercase tracking-wider md:tracking-widest truncate">{label}</div>
+      </div>
     </div>
-    <div className="min-w-0 flex-1">
-      <div className="text-xl md:text-2xl font-black text-white">{value}</div>
-      <div className="text-[9px] md:text-[10px] font-bold text-gray-500 uppercase tracking-wider md:tracking-widest truncate">{label}</div>
-    </div>
-  </div>
-);
+  );
+};
 
 const GithubSection = React.memo(({ repos, loading }) => {
   const username = "biswajit7815";
@@ -46,7 +73,13 @@ const GithubSection = React.memo(({ repos, loading }) => {
           <div>
             <div className="flex justify-between items-start mb-6 md:mb-8 relative z-10">
               <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-indigo-500/50 p-1">
-                <img src={`https://github.com/${username}.png`} alt="Profile" className="w-full h-full rounded-full object-cover" />
+                <OptimizedImage 
+                  src={`https://github.com/${username}.png`} 
+                  alt="Profile" 
+                  width={64}
+                  height={64}
+                  className="w-full h-full rounded-full object-cover" 
+                />
               </div>
               <div className="flex flex-col items-end gap-2">
                 <span className="flex items-center gap-1.5 px-3 py-1 bg-red-500/10 border border-red-500/20 text-red-400 rounded-full text-[10px] font-bold uppercase tracking-widest animate-pulse">
@@ -87,9 +120,11 @@ const GithubSection = React.memo(({ repos, loading }) => {
               Contribution Heatmap
             </h4>
             <div className="w-full overflow-x-auto pb-2 scrollbar-hide">
-              <img 
+              <OptimizedImage 
                 src={`https://ghchart.rshah.org/818cf8/${username}`} 
                 alt="GitHub Contributions Graph" 
+                width={800}
+                height={120}
                 className="w-full min-w-[600px] opacity-80 hover:opacity-100 transition-opacity"
               />
             </div>
@@ -117,15 +152,24 @@ const GithubSection = React.memo(({ repos, loading }) => {
               { year: "2023", title: "Built Enterprise CI/CD", color: "indigo" },
               { year: "2022", title: "Started with Docker", color: "violet" },
               { year: "2021", title: "Linux & Bash Scripting", color: "purple" }
-            ].map((item, idx) => (
-              <div key={idx} className="relative flex items-start md:items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
-                <div className={`flex items-center justify-center w-6 h-6 rounded-full border-2 border-[#0A0A14] bg-${item.color}-500 text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 mt-1 md:mt-0`}></div>
-                <div className="w-[calc(100%-2.5rem)] md:w-[calc(50%-1.5rem)] glass-card p-4 rounded-xl border border-white/5">
-                  <div className={`text-${item.color}-400 font-bold text-xs mb-1`}>{item.year}</div>
-                  <div className="text-white text-sm font-medium">{item.title}</div>
+            ].map((item, idx) => {
+              const timelineColors = {
+                blue: { bg: 'bg-blue-500', text: 'text-blue-400' },
+                indigo: { bg: 'bg-indigo-500', text: 'text-indigo-400' },
+                violet: { bg: 'bg-violet-500', text: 'text-violet-400' },
+                purple: { bg: 'bg-purple-500', text: 'text-purple-400' }
+              };
+              const styles = timelineColors[item.color] || timelineColors.blue;
+              return (
+                <div key={idx} className="relative flex items-start md:items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                  <div className={`flex items-center justify-center w-6 h-6 rounded-full border-2 border-[#0A0A14] ${styles.bg} text-white shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 mt-1 md:mt-0`}></div>
+                  <div className="w-[calc(100%-2.5rem)] md:w-[calc(50%-1.5rem)] glass-card p-4 rounded-xl border border-white/5">
+                    <div className={`${styles.text} font-bold text-xs mb-1`}>{item.year}</div>
+                    <div className="text-white text-sm font-medium">{item.title}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
