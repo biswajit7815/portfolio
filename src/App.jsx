@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Suspense, useMemo, useCallback, useRef } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
-import Lenis from '@studio-freight/lenis';
 import { Github, Mail, Activity, ChevronDown, Terminal, Cloud, Container, GitBranch, Server, Code, Linkedin, Download, ExternalLink, Layers } from 'lucide-react';
 import OptimizedImage from './components/OptimizedImage';
 
@@ -69,65 +68,6 @@ const Typewriter = ({ texts, delay = 150, pause = 2000 }) => {
   );
 };
 
-const MouseLighting = () => {
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    let frameId;
-    const updateMousePosition = (e) => {
-      if (!containerRef.current) return;
-      const x = e.clientX;
-      const y = e.clientY;
-      cancelAnimationFrame(frameId);
-      frameId = requestAnimationFrame(() => {
-        if (containerRef.current) {
-          containerRef.current.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(99,102,241,0.15), transparent 80%)`;
-        }
-      });
-    };
-
-    window.addEventListener('mousemove', updateMousePosition, { passive: true });
-
-    return () => {
-      window.removeEventListener('mousemove', updateMousePosition);
-      cancelAnimationFrame(frameId);
-    };
-  }, []);
-
-  return (
-    <div
-      ref={containerRef}
-      className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300 gpu-accelerated"
-      style={{
-        background: 'radial-gradient(600px circle at 0px 0px, rgba(99,102,241,0.15), transparent 80%)'
-      }}
-    />
-  );
-};
-
-const BackgroundWaves = () => {
-  return (
-    <div className="absolute inset-0 overflow-hidden opacity-30 pointer-events-none">
-      <div 
-        className="absolute w-[360px] h-[360px] rounded-full bg-blue-500/10 blur-[80px] gpu-accelerated"
-        style={{
-          left: '10%',
-          top: '10%',
-          animation: 'blob-move-1 30s infinite ease-in-out'
-        }}
-      />
-      <div 
-        className="absolute w-[480px] h-[480px] rounded-full bg-purple-500/10 blur-[100px] gpu-accelerated"
-        style={{
-          right: '10%',
-          bottom: '10%',
-          animation: 'blob-move-2 40s infinite ease-in-out'
-        }}
-      />
-    </div>
-  );
-}
-
 export default function App() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -159,48 +99,12 @@ export default function App() {
       });
   }, []);
 
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 0.8,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      wheelMultiplier: 1.4,
-      smoothWheel: true,
-    });
-
-    let rafId;
-    function raf(time) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-
-    rafId = requestAnimationFrame(raf);
-
-    // Call resize on document mutations/resizes (like lazy component loading)
-    const resizeObserver = new ResizeObserver(() => {
-      lenis.resize();
-    });
-    resizeObserver.observe(document.body);
-
-    return () => {
-      lenis.destroy();
-      cancelAnimationFrame(rafId);
-      resizeObserver.disconnect();
-    };
-  }, []);
-
   return (
     <div className="relative text-slate-300 font-sans selection:bg-indigo-500/30 selection:text-indigo-300 overflow-hidden bg-gradient-to-b from-[#05050A] to-[#0A0A14]">
-      {/* Interactive Light */}
-      <MouseLighting />
-
       {/* Premium Background */}
       <div className="fixed inset-0 -z-50">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]" />
         <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-indigo-500/10 via-transparent to-transparent blur-[100px]" />
-      </div>
-      
-      <div className="fixed inset-0 -z-40 pointer-events-none opacity-40 mix-blend-screen">
-        <BackgroundWaves />
       </div>
 
       <motion.div
