@@ -174,9 +174,16 @@ export default function App() {
 
     rafId = requestAnimationFrame(raf);
 
+    // Call resize on document mutations/resizes (like lazy component loading)
+    const resizeObserver = new ResizeObserver(() => {
+      lenis.resize();
+    });
+    resizeObserver.observe(document.body);
+
     return () => {
       lenis.destroy();
       cancelAnimationFrame(rafId);
+      resizeObserver.disconnect();
     };
   }, []);
 
